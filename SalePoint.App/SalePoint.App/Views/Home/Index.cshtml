@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div class="col col-lg-6">
+        <div class="card text-center mt-3">
+            <div class="card-header bg-dark text-white">
+                <h3>Productos por expirar</h3>
+            </div>
+            <div class="card-body">
+                <div class="row mt-3">
+                    <table id="tableExpiringSoonProducts" class="display striped row-border order-column nowrap" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Codigo</th>
+                                <th>Producto</th>
+                                <th>Caducidad</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col col-lg-6">
+        <div class="card text-center mt-3">
+            <div class="card-header bg-dark text-white">
+                <h3>Productos por terminarse</h3>
+            </div>
+            <div class="card-body">
+                <div class="row mt-3">
+                    <table id="tableProductsNearCompletition" class="display striped row-border order-column nowrap" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Codigo</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/home.js"></script>
+<script src="~/js/languageDatatable.js"></script>

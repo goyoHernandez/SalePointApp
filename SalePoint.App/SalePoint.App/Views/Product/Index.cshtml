@@ -1,0 +1,221 @@
+﻿<div class="card text-center mt-3">
+    <div class="card-header bg-dark text-white">
+        <h3>Inventario</h3>
+    </div>
+    <div class="card-body">
+        <div class=" row mb-2">
+            <div class="col col-lg-12 d-flex justify-content-end">
+                <button type="button" class="btn btn-primary" id="btnCreateProduct">
+                    <i class="fa-solid fa-plus"></i> Nuevo producto
+                </button>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <table id="tableProducts" class="display striped row-border order-column nowrap" width="100%">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Caducidad</th>
+                        <th>Unidad de medida</th>
+                        <th>Existencias</th>
+                        <th>Existencia minima</th>
+                        <th>Precio de compra</th>
+                        <th>Precio de venta menudeo</th>
+                        <th>Porcentaje de utilidad</th>
+                        <th>Ganancia</th>
+                        <th>Precio de venta mayoreo</th>
+                        <th>Porcentaje de utilidad</th>
+                        <th>Ganancia</th>
+                        <th>Apartir de</th>
+                        <th>Departamento</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="productModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="titleProductModal"></h5>
+            </div>
+            <div class="modal-body">
+                <div class="row d-flex">
+                    <div class="col col-lg-4 mb-2">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nameProduct" />
+                    </div>
+                    <div class="col col-lg-4 mb-2">
+                        <label class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="description" />
+                    </div>
+                    <div class="col col-lg-4 mb-2">
+                        <label class="form-label">Código de barras</label>
+                        <input type="text" class="form-control" id="barCode" />
+                    </div>                    
+                </div>
+
+                <div class="row d-flex">
+                    <div class="col col-lg-4 mb-2">
+                        <label class="form-label">Caducidad</label>
+                        <input type="date" class="form-control" id="expirationDate" />
+                    </div>                    
+                    <div class="col col-lg-4">
+                        <label class="form-label">Departamento</label>
+                        <select class="form-select" id="department"></select>
+                    </div>
+                    <div class="col col-lg-4 mb-2">
+                        <label class="form-label">Unidad de medida</label>
+                        <select class="form-select" id="measurementUnit"></select>
+                    </div>
+                </div>
+
+                <div class="row d-flex">
+                    <div class="col col-lg-4 mb-2">
+                        <label class="form-label">Existencias</label>
+                        <input type="number" class="form-control" id="stock" />
+                    </div>
+                    <div class="col col-lg-4 mb-2">
+                        <label class="form-label">Existencia minima</label>
+                        <input type="number" class="form-control" id="minimumStock" />
+                    </div>
+                    <div class="col col-lg-4 mb-2">
+                        <label class="form-label">Precio de compra</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-secondary text-white">$</span>
+                            <input type="number" class="form-control" id="purchasePrice" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row d-flex">
+                    <div class="col col-lg-4 mb-2">
+                        <label class="form-label">Precio de venta</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-secondary text-white">$</span>
+                            <input type="number" class="form-control" id="salesPrice1" />
+                        </div>
+                    </div>
+                    <div class="col col-lg-4 mb-2">
+                        <label class="form-label">Porcentaje de utilidad</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="percentageProfit1" min="1" max="99" maxlength="2" />
+                            <span class="input-group-text bg-secondary text-white">%</span>
+                        </div>
+                    </div>
+                    <div class="col col-lg-2 mb-2">
+                        <label class="form-label">Ganancia</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-secondary text-white">$</span>
+                            <input type="number" class="form-control" id="revenue1" disabled />
+                        </div>
+                    </div>
+                    <div class="col col-lg-2 mb-2">
+                        <label class="form-label">A partir de</label>
+                        <input type="number" class="form-control" id="wholesale1" value="1" disabled />
+                    </div>
+                </div>
+
+                <div class="row d-flex">
+                    <div class="col col-lg-12 mb-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="applyWholesale" />
+                            <label class="form-check-label">
+                                Aplica venta de mayoreo
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row d-flex disabled-section" id="sectionWholesale">
+                    <div class="col col-lg-4 mb-2">
+                        <label class="form-label">Precio de venta mayoreo</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-secondary text-white">$</span>
+                            <input type="number" class="form-control" id="salesPrice2" />
+                        </div>
+                    </div>
+                    <div class="col col-lg-4 mb-2">
+                        <label class="form-label">Porcentaje de utilidad</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="percentageProfit2" min="1" max="99" maxlength="2" />
+                            <span class="input-group-text bg-secondary text-white">%</span>
+                        </div>
+                    </div>
+                    <div class="col col-lg-2 mb-2">
+                        <label class="form-label">Ganancia</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-secondary text-white">$</span>
+                            <input type="number" class="form-control" id="revenue2" disabled />
+                        </div>
+                    </div>
+
+                    <div class="col col-lg-2 mb-2">
+                        <label class="form-label">A partir de</label>
+                        <input type="number" class="form-control" id="wholesale2" />
+                    </div>
+                </div>
+
+                <div class="row d-flex">
+                    <div class="col col-lg-12">
+                        <input type="hidden" id="creationDate" />
+                        <input type="hidden" id="modificationDate" />
+                        <input type="hidden" id="deletionDate" />
+                        <input type="hidden" id="userId" />
+                        <input type="hidden" id="isActive" value="1" />
+                        <input type="hidden" id="productId" value="0" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCloseProductModal" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" id="btnSaveProduct" class="btn btn-primary">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Add Stock Product -->
+<div class="modal fade" id="AddStockProductModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title text-center">Agregar existencias</h5>
+            </div>
+            <div class="modal-body">
+                <p id="nameStockProduct" class="fw-bold text-center"></p>
+
+                <div class="col col-lg-12 mt-2">
+                    <h6>Cantidad actual</h6>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fa-solid fa-boxes-stacked"></i></span>
+                        <input type="number" class="form-control" placeholder="" value="" disabled="" id="actuallyStockProduct" />
+                    </div>
+                </div>
+                <div class="col col-lg-12">
+                    <h6>Nueva cantidad</h6>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fa-solid fa-cubes-stacked"></i></span>
+                        <input type="number" class="form-control" placeholder="" value="" id="newStockProduct" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnAddStock">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/Pharmacy/product.js"></script>
+<script src="~/js/languageDatatable.js"></script>
