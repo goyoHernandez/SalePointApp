@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "sBxM+SEXZntFWgFmHRVRKdgXjVHqRMkGVt1n8rbRtVk=",
+  "Hash": "+4eju+qybFAgkKAsCRRxvshX6XD5lDMMEiyyLFc3psw=",
   "Source": "SalePoint.App",
   "BasePath": "_content/SalePoint.App",
   "Mode": "Default",
@@ -36089,6 +36089,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\fonts\\remixicon\\remixicon.css"
+    },
+    {
+      "Identity": "C:\\Users\\hards\\Downloads\\Goyo\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.App\\wwwroot\\images\\Abarrotes.jpeg",
+      "SourceId": "SalePoint.App",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\hards\\Downloads\\Goyo\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.App\\wwwroot\\",
+      "BasePath": "_content/SalePoint.App",
+      "RelativePath": "images/Abarrotes.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\Abarrotes.jpeg"
     },
     {
       "Identity": "C:\\Users\\hards\\Downloads\\Goyo\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.App\\wwwroot\\images\\access_denied.png",
