@@ -2,24 +2,24 @@
 {
     public interface IProductRepository
     {
-        Task<int> CreateProduct(Product product);
+        Task<int> CreateProduct(Product product, string token);
 
-        Task<IEnumerable<ProductModel>?> GetAllProducts();
+        Task<IEnumerable<ProductModel>?> GetAllProducts(string token);
 
-        Task<IEnumerable<Product>?> GetProductsExpiringSoon();
+        Task<IEnumerable<Product>?> GetProductsExpiringSoon(string token);
 
-        Task<IEnumerable<Product>?> GetProductsNearCompletition();
+        Task<IEnumerable<Product>?> GetProductsNearCompletition(string token);
 
-        Task<Product?> GetProductById(int productId);
+        Task<Product?> GetProductById(int productId, string token);
 
-        Task<IEnumerable<Product>?> GetProductByBarCode(string barCode);
+        Task<IEnumerable<Product>?> GetProductByBarCode(string barCode, string token);
 
-        Task<IEnumerable<ProductModel>?> GetProductByNameOrDescription(string keyWord);
+        Task<IEnumerable<ProductModel>?> GetProductByNameOrDescription(string keyWord, string token);
 
-        Task<int> UpdateProduct(Product product);
+        Task<int> UpdateProduct(Product product, string token);
 
-        Task<int> UpdateStockProduct(int idProduct, int stock);
+        Task<int> UpdateStockProduct(int idProduct, int stock, string token);
 
-        Task<int> DeleteProduct(int id, int userId);
+        Task<int> DeleteProduct(int id, int userId, string token);
     }
 }

@@ -15,12 +15,13 @@ namespace SalePoint.Repository
             _httpClient = httpClient;
         }
 
-        public async Task<int> ApplyCashFlows(CashFlows cashFlows)
+        public async Task<int> ApplyCashFlows(CashFlows cashFlows, string token)
         {
             int rowAffected = 0;
             try
             {
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
                 string? jsonString = JsonSerializer.Serialize(cashFlows);
                 StringContent? requestContent = new(jsonString, Encoding.UTF8, "application/json");
@@ -41,12 +42,13 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<int> CloseCashRegister(CashRegister cashRegister)
+        public async Task<int> CloseCashRegister(CashRegister cashRegister, string token)
         {
             int cashRegisterId = 0;
             try
             {
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
                 string? jsonString = JsonSerializer.Serialize(cashRegister);
                 StringContent? requestContent = new(jsonString, Encoding.UTF8, "application/json");
@@ -67,12 +69,14 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<IEnumerable<CashRegister>?> GetAllCashRegisterByUserId(int? userId)
+        public async Task<IEnumerable<CashRegister>?> GetAllCashRegisterByUserId(int? userId, string token)
         {
             IEnumerable<CashRegister>? cashRegisters = null;
             try
             {
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
                 HttpResponseMessage response = await client.GetAsync($"CashRegister/Get/ByUserId/{userId}");
 
                 if (response.IsSuccessStatusCode)
@@ -89,12 +93,14 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<IEnumerable<CashFlows>?> GetCashFlowsDetail(int boxCutId, int cashFlowsType)
+        public async Task<IEnumerable<CashFlows>?> GetCashFlowsDetail(int boxCutId, int cashFlowsType,string token)
         {
             IEnumerable<CashFlows>? cashFlows = null;
             try
             {
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
                 HttpResponseMessage response = await client.GetAsync($"CashRegister/Get/cashFlowsDetail/boxCutId/{boxCutId}/cashFlowsType/{cashFlowsType}");
 
                 if (response.IsSuccessStatusCode)
@@ -111,12 +117,14 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<IEnumerable<Sale>?> GetProductReturnsDetail(int boxCutId)
+        public async Task<IEnumerable<Sale>?> GetProductReturnsDetail(int boxCutId, string token)
         {
             IEnumerable<Sale>? sales = null;
             try
             {
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
                 HttpResponseMessage response = await client.GetAsync($"CashRegister/Get/productReturnsDetail/boxCutId/{boxCutId}");
 
                 if (response.IsSuccessStatusCode)
@@ -133,12 +141,13 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<int> OpenCashRegister(InitialAmount initialAmount)
+        public async Task<int> OpenCashRegister(InitialAmount initialAmount, string token)
         {
             int cashRegisterId = 0;
             try
             {
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
                 string? jsonString = JsonSerializer.Serialize(initialAmount);
                 StringContent? requestContent = new(jsonString, Encoding.UTF8, "application/json");
@@ -159,12 +168,13 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<BoxCutOpen?> ValidateBoxCutOpen(int userId, decimal change)
+        public async Task<BoxCutOpen?> ValidateBoxCutOpen(int userId, decimal change, string token)
         {
             BoxCutOpen? boxCutOpen = new();
             try
             {
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
                 string? jsonString = JsonSerializer.Serialize(change);
                 StringContent? requestContent = new(jsonString, Encoding.UTF8, "application/json");

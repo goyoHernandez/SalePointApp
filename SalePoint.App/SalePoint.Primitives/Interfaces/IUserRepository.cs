@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SalePoint.Primitives.Interfaces
+﻿namespace SalePoint.Primitives.Interfaces
 {
     public interface IUserRepository
     {
-        Task<StoreUser?> Login(Access access);
+        Task<TokenAuth?> Login(Access access);
 
-        Task<List<Rol>?> GetRols();
+        Task<List<Rol>?> GetRols(string token);
 
-        Task<int> CreateUser(StoreUser storeUser);
+        Task<int> CreateUser(StoreUser storeUser, string token);
 
-        Task<IEnumerable<StoreUser>?> GetAllUsers();
+        Task<IEnumerable<StoreUser>?> GetAllUsers(string token);
 
-        Task<StoreUser?> GetUserById(int userId);
+        Task<StoreUser?> GetUserById(int userId, string token);
 
-        Task<int> UpdateUser(StoreUser storeUser);
+        Task<int> UpdateUser(StoreUser storeUser, string token);
 
-        Task<int> DeleteUserById(int userId);
+        Task<int> DeleteUserById(int userId, string token);
     }
 }

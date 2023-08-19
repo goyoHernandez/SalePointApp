@@ -16,12 +16,13 @@ namespace SalePoint.Repository
             _httpClient = httpClient;
         }
 
-        public async Task<int> CreateProduct(Product product)
+        public async Task<int> CreateProduct(Product product, string token)
         {
             int productId = 0;
             try
             {
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
                 string? jsonString = JsonSerializer.Serialize(product);
                 StringContent? requestContent = new(jsonString, Encoding.UTF8, "application/json");
@@ -42,12 +43,13 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<IEnumerable<ProductModel>?> GetAllProducts()
+        public async Task<IEnumerable<ProductModel>?> GetAllProducts(string token)
         {
             IEnumerable<ProductModel>? products = null;
             try
             {
                 var client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 var response = await client.GetAsync("Product/All");
 
                 if (response.IsSuccessStatusCode)
@@ -64,12 +66,14 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<IEnumerable<Product>?> GetProductsExpiringSoon()
+        public async Task<IEnumerable<Product>?> GetProductsExpiringSoon(string token)
         {
             IEnumerable<Product>? products = null;
             try
             {
                 var client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
                 var response = await client.GetAsync("Product/ExpiringSoon");
 
                 if (response.IsSuccessStatusCode)
@@ -86,12 +90,14 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<IEnumerable<Product>?> GetProductsNearCompletition()
+        public async Task<IEnumerable<Product>?> GetProductsNearCompletition(string token)
         {
             IEnumerable<Product>? products = null;
             try
             {
                 var client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
                 var response = await client.GetAsync("Product/NearCompletition");
 
                 if (response.IsSuccessStatusCode)
@@ -108,12 +114,14 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<Product?> GetProductById(int productId)
+        public async Task<Product?> GetProductById(int productId, string token)
         {
             Product? product = new();
             try
             {
                 var client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
                 var response = await client.GetAsync($"Product/Get/productId/{productId}");
 
                 if (response.IsSuccessStatusCode)
@@ -130,12 +138,14 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<IEnumerable<Product>?> GetProductByBarCode(string barCode)
+        public async Task<IEnumerable<Product>?> GetProductByBarCode(string barCode, string token)
         {
             try
             {
                 IEnumerable<Product>? products = null;
                 var client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
                 var response = await client.GetAsync($"Product/GetBy/barCode/{barCode}");
 
                 if (response.IsSuccessStatusCode)
@@ -152,12 +162,14 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<IEnumerable<ProductModel>?> GetProductByNameOrDescription(string keyWord)
+        public async Task<IEnumerable<ProductModel>?> GetProductByNameOrDescription(string keyWord, string token)
         {
             try
             {
                 IEnumerable<ProductModel>? products = null;
                 var client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
                 var response = await client.GetAsync($"Product/GetBy/NameOrDescription/{keyWord}");
 
                 if (response.IsSuccessStatusCode)
@@ -174,12 +186,13 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<int> UpdateProduct(Product product)
+        public async Task<int> UpdateProduct(Product product, string token)
         {
             int productId = 0;
             try
             {
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
                 string? jsonString = JsonSerializer.Serialize(product);
                 StringContent? requestContent = new(jsonString, Encoding.UTF8, "application/json");
@@ -200,7 +213,7 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<int> UpdateStockProduct(int stock, int productId)
+        public async Task<int> UpdateStockProduct(int stock, int productId, string token)
         {
             int id = 0;
             try
@@ -209,6 +222,7 @@ namespace SalePoint.Repository
 
                 string? jsonString = JsonSerializer.Serialize(stock);
                 StringContent? requestContent = new(jsonString, Encoding.UTF8, "application/json");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
                 HttpResponseMessage? response = await client.PutAsync($"Product/Update/{productId}/stock", requestContent);
 
@@ -226,12 +240,13 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<int> DeleteProduct(int id, int userId)
+        public async Task<int> DeleteProduct(int id, int userId, string token)
         {
             try
             {
                 int productId = 0;
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
                 HttpResponseMessage? response = await client.DeleteAsync($"Product/Delete/id/{id}/userId/{userId}");
 

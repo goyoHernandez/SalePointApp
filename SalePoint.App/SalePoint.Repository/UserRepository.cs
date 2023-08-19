@@ -19,22 +19,22 @@ namespace SalePoint.Repository
             _httpClient = httpClient;
         }
 
-        public async Task<StoreUser?> Login(Access access)
+        public async Task<TokenAuth?> Login(Access access)
         {
-            StoreUser? storeUser = new();
+            TokenAuth? storeUser = new();
             try
             {
-                HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                HttpClient client = _httpClient.CreateClient("SalePoinAuthApi");
 
                 string? jsonString = JsonSerializer.Serialize(access);
                 StringContent? requestContent = new(jsonString, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage? response = await client.PostAsync("User/Login", requestContent);
+                HttpResponseMessage? response = await client.PostAsync("User/login", requestContent);
 
                 if (response != null && response.IsSuccessStatusCode)
                 {
                     string? content = await response.Content.ReadAsStringAsync();
-                    storeUser = JsonSerializer.Deserialize<StoreUser?>(content, options);
+                    storeUser = JsonSerializer.Deserialize<TokenAuth?>(content, options);
                 }
             }
             catch (Exception)
@@ -44,12 +44,14 @@ namespace SalePoint.Repository
             return storeUser;
         }
 
-        public async Task<List<Rol>?> GetRols()
+        public async Task<List<Rol>?> GetRols(string token)
         {
             List<Rol>? rols = new();
             try
             {
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
                 HttpResponseMessage response = await client.GetAsync("Rol/Get");
 
                 if (response.IsSuccessStatusCode)
@@ -67,12 +69,13 @@ namespace SalePoint.Repository
             return rols;
         }
 
-        public async Task<int> CreateUser(StoreUser storeUser)
+        public async Task<int> CreateUser(StoreUser storeUser, string token)
         {
             int userId = 0;
             try
             {
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
                 string? jsonString = JsonSerializer.Serialize(storeUser);
                 StringContent? requestContent = new(jsonString, Encoding.UTF8, "application/json");
@@ -92,12 +95,14 @@ namespace SalePoint.Repository
             return userId;
         }
 
-        public async Task<IEnumerable<StoreUser>?> GetAllUsers()
+        public async Task<IEnumerable<StoreUser>?> GetAllUsers(string token)
         {
             IEnumerable<StoreUser>? storeUsers = null;
             try
             {
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
                 HttpResponseMessage response = await client.GetAsync("User/Get");
 
                 if (response.IsSuccessStatusCode)
@@ -115,12 +120,14 @@ namespace SalePoint.Repository
             return storeUsers;
         }
 
-        public async Task<StoreUser?> GetUserById(int userId)
+        public async Task<StoreUser?> GetUserById(int userId, string token)
         {
             StoreUser? storeUsers = null;
             try
             {
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
                 HttpResponseMessage response = await client.GetAsync($"User/Get/ByUserId/{userId}");
 
                 if (response.IsSuccessStatusCode)
@@ -138,12 +145,13 @@ namespace SalePoint.Repository
             return storeUsers;
         }
 
-        public async Task<int> UpdateUser(StoreUser storeUser)
+        public async Task<int> UpdateUser(StoreUser storeUser, string token)
         {
             int userId = 0;
             try
             {
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
                 string? jsonString = JsonSerializer.Serialize(storeUser);
                 StringContent? requestContent = new(jsonString, Encoding.UTF8, "application/json");
@@ -164,12 +172,13 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<int> DeleteUserById(int userId)
+        public async Task<int> DeleteUserById(int userId, string token)
         {
             try
             {
                 int id = 0;
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
                 HttpResponseMessage? response = await client.DeleteAsync($"User/Delete/ByUserId/{userId}");
 

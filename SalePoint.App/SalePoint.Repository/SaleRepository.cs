@@ -22,12 +22,13 @@ namespace SalePoint.Repository
         }
 
 
-        public async Task<List<Sale>> GetSalesByUserId(FilterSaleProducts filterSaleProducts)
+        public async Task<List<Sale>> GetSalesByUserId(FilterSaleProducts filterSaleProducts, string token)
         {
             List<Sale> sales = new();
             try
             {
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
                 string? jsonString = JsonSerializer.Serialize(filterSaleProducts);
                 StringContent? requestContent = new(jsonString, Encoding.UTF8, "application/json");
@@ -48,12 +49,13 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<int> ReturnProduct(ProductReturns productReturns)
+        public async Task<int> ReturnProduct(ProductReturns productReturns, string token)
         {
             int productReturnId = 0;
             try
             {
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
                 string? jsonString = JsonSerializer.Serialize(productReturns);
                 StringContent? requestContent = new(jsonString, Encoding.UTF8, "application/json");

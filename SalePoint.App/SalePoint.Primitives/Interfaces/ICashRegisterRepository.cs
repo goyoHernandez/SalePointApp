@@ -2,18 +2,18 @@
 {
     public interface ICashRegisterRepository
     {
-        Task<IEnumerable<CashRegister>?> GetAllCashRegisterByUserId(int? userId);
+        Task<IEnumerable<CashRegister>?> GetAllCashRegisterByUserId(int? userId, string token);
 
-        Task<IEnumerable<CashFlows>?> GetCashFlowsDetail(int boxCutId, int cashFlowsType);
+        Task<IEnumerable<CashFlows>?> GetCashFlowsDetail(int boxCutId, int cashFlowsType, string token);
 
-        Task<IEnumerable<Sale>?> GetProductReturnsDetail(int boxCutId);
+        Task<IEnumerable<Sale>?> GetProductReturnsDetail(int boxCutId, string token);
 
-        Task<int> OpenCashRegister(InitialAmount initialAmount);
+        Task<int> OpenCashRegister(InitialAmount initialAmount, string token);
 
-        Task<int> CloseCashRegister(CashRegister cashRegister);
+        Task<int> CloseCashRegister(CashRegister cashRegister, string token);
 
-        Task<int> ApplyCashFlows(CashFlows cashFlows);
+        Task<int> ApplyCashFlows(CashFlows cashFlows, string token);
 
-        Task<BoxCutOpen?> ValidateBoxCutOpen(int userId, decimal change);
+        Task<BoxCutOpen?> ValidateBoxCutOpen(int userId, decimal change, string token);
     }
 }

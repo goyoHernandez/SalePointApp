@@ -30,7 +30,7 @@ namespace SalePoint.App.Controllers
             if (User.Identity is ClaimsIdentity claimsIdentity)
                 product.UserId = int.Parse(claimsIdentity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault()!);
 
-            return Ok(await _productRepository.CreateProduct(product));
+            return Ok(await _productRepository.CreateProduct(product, HttpContext.Session.GetString("TokenAuth")!));
         }
 
         [Authorize]
@@ -38,49 +38,49 @@ namespace SalePoint.App.Controllers
 
         public async Task<IActionResult> GetAllProducts()
         {
-            return Ok(await _productRepository.GetAllProducts());
+            return Ok(await _productRepository.GetAllProducts(HttpContext.Session.GetString("TokenAuth")!));
         }
 
         [Authorize]
         [HttpGet]
         public async Task<ActionResult> GetProductsExpiringSoon()
         {
-            return Json(await _productRepository.GetProductsExpiringSoon());
+            return Json(await _productRepository.GetProductsExpiringSoon(HttpContext.Session.GetString("TokenAuth")!));
         }
 
         [Authorize]
         [HttpGet]
         public async Task<ActionResult> GetProductsNearCompletition()
         {
-            return Json(await _productRepository.GetProductsNearCompletition());
+            return Json(await _productRepository.GetProductsNearCompletition(HttpContext.Session.GetString("TokenAuth")!));
         }
 
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllDepartments()
         {
-            return Ok(await _departmentRepository.GetAllDepartments());
+            return Ok(await _departmentRepository.GetAllDepartments(HttpContext.Session.GetString("TokenAuth")!));
         }
 
         [Authorize]
         [HttpGet(Name = "{productId}")]
         public async Task<IActionResult> GetProductById(int productId)
         {
-            return Ok(await _productRepository.GetProductById(productId));
+            return Ok(await _productRepository.GetProductById(productId, HttpContext.Session.GetString("TokenAuth")!));
         }
 
         [Authorize]
         [HttpGet(Name = "{barCode}")]
         public async Task<IActionResult> GetProductByBarCode(string barCode)
         {
-            return Ok(await _productRepository.GetProductByBarCode(barCode));
+            return Ok(await _productRepository.GetProductByBarCode(barCode, HttpContext.Session.GetString("TokenAuth")!));
         }
 
         [Authorize]
         [HttpGet(Name = "{keyWord}")]
         public async Task<IActionResult> GetProductByNameOrDescription(string keyWord)
         {
-            return Ok(await _productRepository.GetProductByNameOrDescription(keyWord));
+            return Ok(await _productRepository.GetProductByNameOrDescription(keyWord, HttpContext.Session.GetString("TokenAuth")!));
         }
 
         [Authorize(Roles = "Administrador")]
@@ -90,14 +90,14 @@ namespace SalePoint.App.Controllers
             if (User.Identity is ClaimsIdentity claimsIdentity)
                 product.UserId = int.Parse(claimsIdentity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault()!);
 
-            return Ok(await _productRepository.UpdateProduct(product));
+            return Ok(await _productRepository.UpdateProduct(product, HttpContext.Session.GetString("TokenAuth")!));
         }
 
         [Authorize(Roles = "Administrador")]
         [HttpPut(Name = "productId/{productId}")]
         public async Task<IActionResult> UpdateStockProduct([FromBody] int stock, int productId)
         {
-            return Ok(await _productRepository.UpdateStockProduct(stock, productId));
+            return Ok(await _productRepository.UpdateStockProduct(stock, productId, HttpContext.Session.GetString("TokenAuth")!));
         }
 
         [Authorize(Roles = "Administrador")]
@@ -109,7 +109,7 @@ namespace SalePoint.App.Controllers
             if (User.Identity is ClaimsIdentity claimsIdentity)
                 userId = int.Parse(claimsIdentity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault()!);
 
-            return Ok(await _productRepository.DeleteProduct(productId, userId));
+            return Ok(await _productRepository.DeleteProduct(productId, userId, HttpContext.Session.GetString("TokenAuth")!));
         }
     }
 }

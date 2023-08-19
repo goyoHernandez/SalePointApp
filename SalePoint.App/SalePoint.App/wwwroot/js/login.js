@@ -169,10 +169,27 @@ const Login = async (access) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
-        },
+        },      
         body: JSON.stringify(access)
     });
     data = await response.json();
 
     return data;
 }
+
+//const Home = async () => {
+//    let data = '';
+//    const url = new URL(`${window.location.origin}/Home`);
+
+//    const response = await fetch(url, {
+//        method: 'GET',
+//        headers: {
+//            'Content-Type': 'application/json',
+//            'Authorization': 'Bearer <token>'
+//        },
+//        body: JSON.stringify(access)
+//    });
+//    data = await response.json();
+
+//    return data;
+//}

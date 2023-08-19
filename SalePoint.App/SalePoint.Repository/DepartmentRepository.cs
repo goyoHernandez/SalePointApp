@@ -19,12 +19,14 @@ namespace SalePoint.Repository
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<Department>?> GetAllDepartments()
+        public async Task<IEnumerable<Department>?> GetAllDepartments(string token)
         {
             IEnumerable<Department>? departments = null;
             try
             {
                 var client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
                 var response = await client.GetAsync("Department/Get");
 
                 if (response.IsSuccessStatusCode)
