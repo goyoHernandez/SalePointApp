@@ -1,4 +1,4 @@
-﻿$(document).ready(() => {
+﻿$(() => {
 
     $('#loadingPage').fadeIn(1);
 
@@ -77,7 +77,7 @@
     buildTableCashRegister();
 });
 
-$('body').delegate('.btnCloseCashRegister', 'click', (e) => {
+$(document).on('click', '.btnCloseCashRegister', (e) => {
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
             confirmButton: 'btn btn-primary m-2',
@@ -114,7 +114,6 @@ $('body').delegate('.btnCloseCashRegister', 'click', (e) => {
                 $('#loadingPage').fadeIn(1);
 
                 if (res != null && res > 0) {
-
                     buildTableCashRegister();
 
                     dinamycTimerAlert({
@@ -135,7 +134,8 @@ $('body').delegate('.btnCloseCashRegister', 'click', (e) => {
     })
 });
 
-$('body').delegate('.btnCashWithdrawal', 'click', (e) => {
+$(document).on('click', '.btnCashWithdrawal', (e) => {
+
     $('#boxCutId').val(e.currentTarget.getAttribute('id-cash-register'));
     $('#actuallyAmount').val(e.currentTarget.getAttribute('data-id-final-amount'));
     $('#withdrawalAmount').val('');
@@ -143,7 +143,7 @@ $('body').delegate('.btnCashWithdrawal', 'click', (e) => {
     $('#modalCashWithdrawal').modal('show');
 });
 
-$('body').delegate('#btnApplyCashWithdrawal', 'click', (e) => {
+$('#btnApplyCashWithdrawal').on('click', (e) => {
     let finalAmount = parseInt($('#actuallyAmount').val(), 10);
 
     let cashFlow = {
@@ -173,7 +173,8 @@ $('body').delegate('#btnApplyCashWithdrawal', 'click', (e) => {
 
 });
 
-$('body').delegate('.btnCashIncome', 'click', (e) => {
+$(document).on('click', '.btnCashIncome', (e) => {
+
     $('#boxCutId').val(e.currentTarget.getAttribute('id-cash-register'));
     $('#actuallyAmountCashIncome').val(parseInt(e.currentTarget.getAttribute('data-id-final-amount'), 10));
     $('#cashIncome').val('');
@@ -181,7 +182,7 @@ $('body').delegate('.btnCashIncome', 'click', (e) => {
     $('#modalCashIncome').modal('show');
 });
 
-$('body').delegate('#btnApplyCashIncome', 'click', (e) => {
+$('#btnApplyCashIncome').on('click', (e) => {
 
     let cashFlow = {
         'id': 0,
@@ -211,7 +212,8 @@ $('body').delegate('#btnApplyCashIncome', 'click', (e) => {
 
 });
 
-$('body').delegate('.btnCashWithdrawalDetail', 'click', (e) => {
+$(document).on('click', '.btnCashWithdrawalDetail', (e) => {
+
     let boxCutId = e.currentTarget.getAttribute('data-cash-register-id');
     $('#titleCashFlowsDetail').text('Retiros de efectivo');
 
@@ -230,7 +232,8 @@ $('body').delegate('.btnCashWithdrawalDetail', 'click', (e) => {
     });
 });
 
-$('body').delegate('.btnCashIncomeDetail', 'click', (e) => {
+$(document).on('click', '.btnCashIncomeDetail', (e) => {
+
     let boxCutId = e.currentTarget.getAttribute('data-cash-register-id');
     $('#titleCashFlowsDetail').text('Ingresos de efectivo');
 
@@ -248,7 +251,8 @@ $('body').delegate('.btnCashIncomeDetail', 'click', (e) => {
     });
 });
 
-$('body').delegate('.btnProductReturnsDetail', 'click', (e) => {
+$(document).on('click', '.btnProductReturnsDetail', (e) => {
+
     $('#loadingPage').fadeIn(1);
 
     let boxCutId = e.currentTarget.getAttribute('data-cash-register-id');
@@ -271,10 +275,10 @@ $('body').delegate('.btnProductReturnsDetail', 'click', (e) => {
 const buildTableCashRegister = () => {
 
     getAllCashRegister().then((cashRegisters) => {
+        let tableCashRegister = $('#tableCashRegister').DataTable();
         $('#loadingPage').fadeOut(1);
 
         if (cashRegisters != null && cashRegisters.length > 0) {
-            let tableCashRegister = $('#tableCashRegister').DataTable();
             let data = new Array();
 
             cashRegisters.map((item) => {
@@ -324,7 +328,9 @@ const buildTableCashRegister = () => {
             tableCashRegister.rows.add(data); // Add new data
             tableCashRegister.columns.adjust().draw(); // Redraw the DataTable
         }
-
+        else {
+            tableCashRegister.clear().draw();
+        }
     });
 }
 
@@ -473,13 +479,14 @@ const dinamycTimerAlert = (settings) => {
 const printCashFlowTicket = (cashFlow) => {
     let text1 = 'retiro';
     let text2 = 'ingreso';
+    //<img src="https://farmaymas.mx/wp-content/uploads/2022/06/farma-vecto-scaled.webp" width="70" height="30"><br>
 
     let template = `
 
                     <div style="width: 300px; padding: 5px;">
                         <div style="text-align: center;">
-                            <img src="https://farmaymas.mx/wp-content/uploads/2022/06/farma-vecto-scaled.webp" width="70" height="30"><br>
-                            <label style="font-size: x-large; font-weight: 600;">Farma y mas</label><br>
+                            <img src="~/images/Logo.png" width="70" height="30"><br>
+                            <label style="font-size: x-large; font-weight: 600;">Abarrtotes Mike</label><br>
                             <label style="margin-top: 5px;">Av del Trabajo</label><br>
                             <div style="margin-top: 5px;">
                                 <label>${getDateDDMMYYYYHHMM()}</label>

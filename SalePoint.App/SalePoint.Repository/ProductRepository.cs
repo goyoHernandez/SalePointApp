@@ -43,19 +43,19 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<IEnumerable<ProductModel>?> GetAllProducts(string token)
+        public async Task<ProductModel?> GetAllProducts(int pageNumber, int pageSize, string token)
         {
-            IEnumerable<ProductModel>? products = null;
+            ProductModel? products = null;
             try
             {
                 var client = _httpClient.CreateClient("SalePoinApi");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-                var response = await client.GetAsync("Product/All");
+                var response = await client.GetAsync($"Product/All/pageNumber/{pageNumber}/pageSize/{pageSize}");
 
                 if (response.IsSuccessStatusCode)
                 {
                     string? content = await response.Content.ReadAsStringAsync();
-                    products = JsonSerializer.Deserialize<List<ProductModel>>(content, options);
+                    products = JsonSerializer.Deserialize<ProductModel>(content, options);
                 }
 
                 return products;
@@ -162,11 +162,11 @@ namespace SalePoint.Repository
             }
         }
 
-        public async Task<IEnumerable<ProductModel>?> GetProductByNameOrDescription(string keyWord, string token)
+        public async Task<ProductModel?> GetProductByNameOrDescription(string keyWord, string token)
         {
             try
             {
-                IEnumerable<ProductModel>? products = null;
+                ProductModel? productModel = null;
                 var client = _httpClient.CreateClient("SalePoinApi");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
@@ -175,10 +175,10 @@ namespace SalePoint.Repository
                 if (response.IsSuccessStatusCode)
                 {
                     string? content = await response.Content.ReadAsStringAsync();
-                    products = JsonSerializer.Deserialize<List<ProductModel>>(content, options);
+                    productModel = JsonSerializer.Deserialize<ProductModel>(content, options);
                 }
 
-                return products;
+                return productModel;
             }
             catch
             {
@@ -257,6 +257,30 @@ namespace SalePoint.Repository
                 }
 
                 return productId;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<ProductModel?> GetProductByNameOrDescriptionPaginate(string keyWord, int pageNumber, int pageSize, string token)
+        {
+            try
+            {
+                ProductModel? products = null;
+                var client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+                var response = await client.GetAsync($"GetBy/NameOrDescription/{keyWord}/pageNumber/{pageNumber}/pageSize/{pageSize}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string? content = await response.Content.ReadAsStringAsync();
+                    products = JsonSerializer.Deserialize<ProductModel>(content, options);
+                }
+
+                return products;
             }
             catch
             {

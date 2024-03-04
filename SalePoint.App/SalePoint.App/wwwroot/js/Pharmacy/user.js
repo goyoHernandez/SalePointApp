@@ -1,4 +1,4 @@
-﻿$(document).ready(() => {
+﻿$(() => {
     $('#loadingPage').fadeIn(1);
 
     $('#tableUsers').DataTable({
@@ -34,7 +34,24 @@
     buildTableUsers();
 });
 
-$('body').delegate('.btnDeleteUser', 'click', (e) => {
+$(document).on('click', '.btnUpdateUser', (e) => {
+    $('#loadingPage').fadeIn(1);
+    e.currentTarget.disabled = true;
+    let userId = e.currentTarget.getAttribute('userId');
+
+    getUserById(userId).then((user) => {
+        if (user != null) {
+            buildModalUserEdit(user);
+        }
+        else {
+            $('#loadingPage').fadeOut(1);
+            dinamicAlert({ title: '¡Ocurrio un error!', text: 'Por favor recargue la pagína e intente nuevamente', type: 'error' });
+        }
+    });
+});
+
+$(document).on('click', '.btnDeleteUser', (e) => {
+
     let userId = parseInt(e.currentTarget.getAttribute('userId'));
 
     Swal.fire({
@@ -67,23 +84,7 @@ $('body').delegate('.btnDeleteUser', 'click', (e) => {
     });
 });
 
-$('body').delegate('.btnUpdateUser', 'click', (e) => {
-    $('#loadingPage').fadeIn(1);
-    e.currentTarget.disabled = true;
-    let userId = e.currentTarget.getAttribute('userId');
-
-    getUserById(userId).then((user) => {
-        if (user != null) {
-            buildModalUserEdit(user);
-        }
-        else {
-            $('#loadingPage').fadeOut(1);
-            dinamicAlert({ title: '¡Ocurrio un error!', text: 'Por favor recargue la pagína e intente nuevamente', type: 'error' });
-        }
-    });
-});
-
-$('body').delegate('#btnSaveUser', 'click', (e) => {
+$('#btnSaveUser').on('click', (e) => {
     const user = {
         "id": $('#userId').val(),
         "name": $('#name').val(),
@@ -112,7 +113,7 @@ $('body').delegate('#btnSaveUser', 'click', (e) => {
                 if (userId != null && userId > 0) {
 
                     buildTableUsers();
-                    $('#btnCloseUserModal').click();
+                    $('#btnCloseUserModal').trigger('click');
                     dinamycTimerAlert({ title: '¡Creado correctamente!', text: 'El usuario fue creado.', type: 'success' });
                 }
                 else {
@@ -131,7 +132,7 @@ $('body').delegate('#btnSaveUser', 'click', (e) => {
                 if (userId != null && userId > 0) {
 
                     buildTableUsers();
-                    $('#btnCloseUserModal').click();
+                    $('#btnCloseUserModal').trigger('click');
                     dinamycTimerAlert({ title: '¡Actualizado correctamente!', text: 'El usuario fue actualizado.', type: 'success' });
                 }
                 else {
@@ -144,19 +145,19 @@ $('body').delegate('#btnSaveUser', 'click', (e) => {
     }
 });
 
-$('body').delegate('#btnCloseUserModal', 'click', (e) => {
+$('#btnCloseUserModal').on('click', (e) => {
     $('#userModal').modal('hide');
     $('.btnUpdateUser').attr('disabled', false);
 });
 
-$('body').delegate('#btnCreateUser', 'click', (e) => {
+$('#btnCreateUser').on('click', (e) => {
     $('#titleUserModal').text('Crear usuario');
     clearFormSaveProduct();
     buildSelectRols(0);
     $('#userModal').modal('show');
 });
 
-$('body').delegate('#showPassword', 'click', (e) => {
+$('#showPassword').on('click', (e) => {
     let pass = $('#pass');
 
     const type = pass.attr("type") === "password" ? "text" : "password";
@@ -203,6 +204,10 @@ const buildTableUsers = () => {
                     'rol': item.rol.name,
                     'userName': item.userName,
                     '': `${btnUpdateUser.outerHTML} ${btnDeleteUser.outerHTML}`
+                });
+
+                btnUpdateUser.addEventListener('click', (e) => {
+                    console.log(item.id);
                 });
             });
 

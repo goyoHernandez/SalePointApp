@@ -34,11 +34,11 @@ namespace SalePoint.App.Controllers
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet(Name = "pageNumber/{pageNumber}/pageSize/{pageSize}")]
 
-        public async Task<IActionResult> GetAllProducts()
+        public async Task<IActionResult> GetAllProducts(int pageNumber, int pageSize)
         {
-            return Ok(await _productRepository.GetAllProducts(HttpContext.Session.GetString("TokenAuth")!));
+            return Ok(await _productRepository.GetAllProducts(pageNumber, pageSize, HttpContext.Session.GetString("TokenAuth")!));
         }
 
         [Authorize]
@@ -110,6 +110,13 @@ namespace SalePoint.App.Controllers
                 userId = int.Parse(claimsIdentity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault()!);
 
             return Ok(await _productRepository.DeleteProduct(productId, userId, HttpContext.Session.GetString("TokenAuth")!));
+        }
+
+        [Authorize]
+        [HttpGet(Name = "{keyWord}/pageNumber/{pageNumber}/pageSize/{pageSize}")]
+        public async Task<ActionResult> GetProductByNameOrDescriptionPaginate(string keyWord, int pageNumber, int pageSize)
+        {
+            return Ok(await _productRepository.GetProductByNameOrDescriptionPaginate(keyWord, pageNumber, pageSize, HttpContext.Session.GetString("TokenAuth")!));
         }
     }
 }

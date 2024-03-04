@@ -6,13 +6,27 @@ using SalePoint.Repository;
 using System.Net.Http.Headers;
 using System.Text;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:25000",
+                               "http://localhost:25001"
+                              );
+        });
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSession(options => {
-    options.IdleTimeout = TimeSpan.FromMinutes(60);
+    options.IdleTimeout = TimeSpan.FromDays(2);
+    options.Cookie.IsEssential = true;
+    options.Cookie.MaxAge = TimeSpan.FromDays(2);
 });
 
 //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -52,6 +66,7 @@ builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<ICashRegisterRepository, CashRegisterRepository>();
 builder.Services.AddSingleton<ISaleRepository, SaleRepository>();
 builder.Services.AddSingleton<ISellRepository, SellRepository>();
+builder.Services.AddSingleton<ITicketRepository, TicketRepository>();
 
 builder.Services.AddHttpClient("SalePoinApi", config =>
 {
@@ -77,6 +92,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseCookiePolicy();
 app.UseRouting();
+app.UseCors();
 
 app.UseSession();
 app.Use(async (context, next) =>

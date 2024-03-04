@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/denGnoU+89CeV3k2ToBCAv9Y070cc0YbiHc/y1jh483pRbVAAfrWQDHxx3LMSabrKpRD4zFlc/SsOHAeGSbBw==",
+  "dgSpecHash": "wI8Fc9R/beZEi3nUf52Ymr/EjQdJzRrm8GhLoY8gU9TFnynIXX5UGwCtBfShcCpi7oU8A01Ujih1WI7v0dI4FA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\hards\\Downloads\\Goyo\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.Primitives\\SalePoint.Primitives.csproj",
+  "projectFilePath": "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.Primitives\\SalePoint.Primitives.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

@@ -7,10 +7,12 @@ namespace SalePoint.App.Controllers
     public class LoginController : Controller
     {
         private readonly IUserRepository _userRepository;
+        private readonly IWebHostEnvironment Environment;
 
-        public LoginController(IUserRepository userRepository)
+        public LoginController(IUserRepository userRepository, IWebHostEnvironment environment)
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            Environment = environment;
         }
 
         public IActionResult Index()
@@ -28,7 +30,15 @@ namespace SalePoint.App.Controllers
                 if (tokenAuth != null && !string.IsNullOrEmpty(tokenAuth.Token)) //&& tokenAuth.UserName != null)
                 {
                     HttpContext.Session.SetString("TokenAuth", tokenAuth.Token);
-                    return Json(true);
+
+                    string path = Path.Combine(Environment.WebRootPath, "images\\logo");
+
+                    string? pathImage = Directory.GetFiles(path).FirstOrDefault();
+
+                    if (pathImage != null)
+                        return Json($"/images/logo/{Path.GetFileName(pathImage)}");
+                    else
+                        return Json("");
                 }
                 return Json(false);
             }

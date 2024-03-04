@@ -16,4 +16,8 @@
     <ProjectReference Include="..\SalePoint.Repository\SalePoint.Repository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\logo\" />
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+4eju+qybFAgkKAsCRRxvshX6XD5lDMMEiyyLFc3psw=",
+  "Hash": "z+zuJznhLK1aY892+GEAXDQEQqkX9Pn5YAn4lVHs5KE=",
   "Source": "SalePoint.App",
   "BasePath": "_content/SalePoint.App",
   "Mode": "Default",
@@ -36140,6 +36140,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\Farma y Mas.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\hards\\Downloads\\Goyo\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.App\\wwwroot\\images\\Logo.png",
+      "SourceId": "SalePoint.App",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\hards\\Downloads\\Goyo\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.App\\wwwroot\\",
+      "BasePath": "_content/SalePoint.App",
+      "RelativePath": "images/Logo.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\Logo.png"
     },
     {
       "Identity": "C:\\Users\\hards\\Downloads\\Goyo\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.App\\wwwroot\\js\\home.js",

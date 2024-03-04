@@ -4,7 +4,7 @@
     {
         Task<int> CreateProduct(Product product, string token);
 
-        Task<IEnumerable<ProductModel>?> GetAllProducts(string token);
+        Task<ProductModel?> GetAllProducts(int pageNumber, int pageSize, string token);
 
         Task<IEnumerable<Product>?> GetProductsExpiringSoon(string token);
 
@@ -14,7 +14,9 @@
 
         Task<IEnumerable<Product>?> GetProductByBarCode(string barCode, string token);
 
-        Task<IEnumerable<ProductModel>?> GetProductByNameOrDescription(string keyWord, string token);
+        Task<ProductModel?> GetProductByNameOrDescription(string keyWord, string token);
+
+        Task<ProductModel?> GetProductByNameOrDescriptionPaginate(string keyWord, int pageNumber, int pageSize, string token);
 
         Task<int> UpdateProduct(Product product, string token);
 

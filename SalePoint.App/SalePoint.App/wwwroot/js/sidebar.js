@@ -1,4 +1,4 @@
-﻿const ANIMATION_DURATION = 300;
+﻿const ANIMATION_DURATION = 700;
 
 const SIDEBAR_EL = document.getElementById("sidebar");
 
@@ -137,6 +137,7 @@ const slideUp = (target, duration = ANIMATION_DURATION) => {
         target.style.removeProperty("transition-property");
     }, duration);
 };
+
 const slideDown = (target, duration = ANIMATION_DURATION) => {
     const { parentElement } = target;
     parentElement.classList.add("open");
@@ -188,22 +189,30 @@ const updatePoppersTimeout = () => {
 /**
  * sidebar collapse handler
  */
-$('body').delegate('#btn-collapse', 'click', (e) => {
+$('#btn-collapse').on('click', (e) => {
     let companyLogo = document.getElementById('companyLogo');
+    let menuHeader = $('.menu-header');
+    let sidebarHeader = $('.sidebar-header');
 
     SIDEBAR_EL.classList.toggle("collapsed");
     PoppersInstance.closePoppers();
 
     if (SIDEBAR_EL.classList.contains("collapsed")) {
-        companyLogo.style.width = '70px';
-        companyLogo.style.height = '30px';
+        //companyLogo.style.width = '70px';
+        //companyLogo.style.height = '30px';
+        menuHeader.toggleClass('visually-hidden');
+        sidebarHeader.css({ 'margin-top': '35px' })
+
         FIRST_SUB_MENUS_BTN.forEach((element) => {
             element.parentElement.classList.remove("open");
         });
     }
     else {
-        companyLogo.style.width = '200px';
-        companyLogo.style.height = '80px';
+        menuHeader.toggleClass('visually-hidden');
+        sidebarHeader.css({ 'margin-top': '0px' })
+
+        //companyLogo.style.width = '200px';
+        //companyLogo.style.height = '80px';
     }
 
 
@@ -213,7 +222,7 @@ $('body').delegate('#btn-collapse', 'click', (e) => {
 /**
  * sidebar toggle handler (on break point )
  */
-$('body').delegate('#btn-toggle', 'click', (e) => {
+$('#btn-toggle').on('click', (e) => {
     SIDEBAR_EL.classList.toggle("toggled");
     updatePoppersTimeout();
 });
@@ -260,4 +269,9 @@ INNER_SUB_MENUS_BTN.forEach((element) => {
     element.addEventListener("click", () => {
         slideToggle(element.nextElementSibling);
     });
+});
+
+
+$(() => {
+    //$('#btn-collapse').trigger('click');
 });

@@ -8493,6 +8493,10 @@
       "PackagePath": "staticwebassets\\images\\Farma y Mas.jpg"
     },
     {
+      "Id": "C:\\Users\\hards\\Downloads\\Goyo\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.App\\wwwroot\\images\\Logo.png",
+      "PackagePath": "staticwebassets\\images\\Logo.png"
+    },
+    {
       "Id": "C:\\Users\\hards\\Downloads\\Goyo\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.App\\wwwroot\\images\\access_denied.png",
       "PackagePath": "staticwebassets\\images\\access_denied.png"
     },

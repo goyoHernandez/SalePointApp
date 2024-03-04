@@ -1,94 +1,10 @@
-﻿$(document).ready(() => {
-    $('#tableProducts').DataTable({
-        'language': language,
-        'destroy': true,
-        scrollX: true,
-        scrollCollapse: true,
-        paging: true,
-        fixedColumns: {
-            left: 4,
-            right: 1
-        },
-        lengthMenu: [
-            [5, 15, 40, -1],
-            [5, 15, 40, 'Todos']
-        ],
-        columns: [
-            { data: 'barCode' },
-            { data: 'name' },
-            { data: 'description' },
-            { data: 'expirationDate' },
-            { data: 'measurementUnit' },
-            { data: 'stock' },
-            { data: 'minimumStock' },
-            { data: 'purchasePrice', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
-            { data: 'salesPrice1', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
-            { data: 'percentageProfit1', render: $.fn.dataTable.render.number(',', '.', 2, '', '%') },
-            { data: 'revenue1', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
-            { data: 'salesPrice2', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
-            { data: 'percentageProfit2', render: $.fn.dataTable.render.number(',', '.', 2, '', '%') },
-            { data: 'revenue2', render: $.fn.dataTable.render.number(',', '.', 2, '$') },
-            { data: 'wholesale' },
-            { data: 'departmentName' },
-            { data: '' }
-        ]
-    });
-
+﻿$(() => {
     $('#expirationDate').attr('min', getDateYYYYMMDD());
     $('#loadingPage').fadeIn(1);
-    buildTableProducts();
+    getProducts('', 1, 5);
 });
 
-$('body').delegate('.btnDeleteProduct', 'click', (e) => {
-    let idProduct = parseInt(e.currentTarget.getAttribute('idProduct'));
-
-    Swal.fire({
-        title: '¿Estas seguro de eliminar?',
-        text: "¡Los cambios no podran revertirse!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#0d6efd',
-        cancelButtonColor: '#6c757d',
-        confirmButtonText: 'Aceptar',
-        reverseButtons: true
-    }).then((result) => {
-        if (result.isConfirmed) {
-
-            $('#loadingPage').fadeIn(1);
-
-            deleteProduct(idProduct).then((res) => {
-                if (res != null && res > 0) {
-                    buildTableProducts();
-                    dinamycTimerAlert({ title: '¡Eliminado correctamente!', text: 'El producto ha sido eliminado', type: 'success' });
-                }
-                else {
-                    $('#loadingPage').fadeOut(1);
-                    dinamicAlert({ title: '¡Ocurrio un error!', text: 'Por favor recargue la pagína e intente nuevamente', type: 'error' });
-                }
-            });
-        }
-    });
-});
-
-$('body').delegate('.btnUpdateProduct', 'click', (e) => {
-
-    $('#loadingPage').fadeIn(1);
-    e.currentTarget.disabled = true;
-    let productId = e.currentTarget.getAttribute('idProduct');
-
-    getProductById(productId).then((product) => {
-        if (product != null) {
-            buildModalProductEdit(product);
-        }
-        else {
-            $('#loadingPage').fadeOut(1);
-            dinamicAlert({ title: '¡Ocurrio un error!', text: 'Por favor recargue la pagína e intente nuevamente', type: 'error' });
-        }
-    });
-
-});
-
-$('body').delegate('#btnSaveProduct', 'click', (e) => {
+document.getElementById('btnSaveProduct').addEventListener('click', (e) => {
 
     let applyWholesale = document.getElementById('applyWholesale').checked;
 
@@ -160,10 +76,9 @@ $('body').delegate('#btnSaveProduct', 'click', (e) => {
         if (product.id == 0) {
 
             createProduct(product).then((productId) => {
-
                 if (productId != null && productId > 0) {
-                    buildTableProducts();
-                    $('#btnCloseProductModal').click();
+                    getProducts('', 1, 5);
+                    $('#btnCloseProductModal').trigger('click');
                     dinamycTimerAlert({ title: '¡Creado correctamente!', text: 'El producto fue creado', type: 'success' });
                 }
                 else {
@@ -176,10 +91,9 @@ $('body').delegate('#btnSaveProduct', 'click', (e) => {
         else {
 
             updateProduct(product).then((productId) => {
-
                 if (productId != null && productId > 0) {
-                    buildTableProducts();
-                    $('#btnCloseProductModal').click();
+                    getProducts('', 1, 5);
+                    $('#btnCloseProductModal').trigger('click');
                     dinamycTimerAlert({ title: '¡Actualizado correctamente!', text: 'El producto fue actualizado', type: 'success' });
                 }
                 else {
@@ -192,12 +106,12 @@ $('body').delegate('#btnSaveProduct', 'click', (e) => {
     }
 });
 
-$('body').delegate('#btnCloseProductModal', 'click', (e) => {
+document.getElementById('btnCloseProductModal').addEventListener('click', (e) => {
     $('#productModal').modal('hide');
     $('.btnUpdateProduct').attr('disabled', false);
 });
 
-$('body').delegate('#minimumStock', 'focusout', (e) => {
+$('#minimumStock').on('focusout', (e) => {
     let stock = $('#stock').val() == '' ? 0 : parseInt($('#stock').val());
     let minimumStock = e.currentTarget.value == '' ? 0 : parseInt(e.currentTarget.value);
 
@@ -214,7 +128,7 @@ $('body').delegate('#minimumStock', 'focusout', (e) => {
     }
 });
 
-$('body').delegate('#btnCreateProduct', 'click', (e) => {
+$('#btnCreateProduct').on('click', (e) => {
     //$('#barCode').attr('disabled', false);
     $('#titleProductModal').text('Crear producto');
     clearFormSaveProduct();
@@ -223,34 +137,16 @@ $('body').delegate('#btnCreateProduct', 'click', (e) => {
     $('#productModal').modal('show');
 });
 
-$('body').delegate('.btnAddStockProduct', 'click', (e) => {
-    let idProduct = e.currentTarget.getAttribute('idProduct');
-    $('#loadingPage').fadeIn(1);
-
-    getProductById(idProduct).then((res) => {
-        if (res != null) {
-            $('#nameStockProduct').text(res.name);
-            $('#btnAddStock').attr('data-id', res.id);
-            $('#actuallyStockProduct').val(res.stock);
-            $('#newStockProduct').val('');
-            $('#AddStockProductModal').modal('show');
-            $('#loadingPage').fadeOut(1);
-        }
-        else {
-            $('#loadingPage').fadeOut(1);
-            dinamicAlert({ title: '¡Ocurrio un error!', text: 'Por favor recargue la pagína e intente nuevamente', type: 'error' });
-        }
-    });
-});
-
-$('body').delegate('#newStockProduct', 'keypress', (e) => {
+$('#newStockProduct').on('keypress', (e) => {
     if (e.key === "Enter")
-        $('#btnAddStock').click();
+        $('#btnAddStock').trigger('click');
 });
 
-$('body').delegate('#btnAddStock', 'click', (e) => {
+$('#btnAddStock').on('click', (e) => {
     let idProduct = e.currentTarget.getAttribute('data-id');
     let stock = $('#newStockProduct').val();
+    let textSearchProduct = document.getElementById('textSearchProduct');
+    let pageNumber = document.getElementById('pageNumber');
 
     if (stock != '' && stock > 0) {
 
@@ -260,7 +156,7 @@ $('body').delegate('#btnAddStock', 'click', (e) => {
 
             if (res) {
                 dinamycTimerAlert({ title: '¡Existencias actualizadas!', text: 'Las existencias fuerón agregadas con éxito.', type: 'success' });
-                buildTableProducts();
+                getProducts(textSearchProduct.value, pageNumber.value, 5);
                 $('#AddStockProductModal').modal('hide');
             }
             else {
@@ -275,7 +171,7 @@ $('body').delegate('#btnAddStock', 'click', (e) => {
     }
 });
 
-$('body').delegate('#applyWholesale', 'change', (e) => {
+$('#applyWholesale').on('change', (e) => {
     let isActive = e.currentTarget.checked;
     let sectionWholesale = document.getElementById('sectionWholesale');
 
@@ -286,7 +182,7 @@ $('body').delegate('#applyWholesale', 'change', (e) => {
     }
 });
 
-$('body').delegate('#salesPrice1', 'keyup', (e) => {
+$('#salesPrice1').on('keyup', (e) => {
     let salesPrice1 = e.currentTarget;
     let purchasePrice = $('#purchasePrice').val() != '' ? Math.round($('#purchasePrice').val() * 100) / 100 : '';
 
@@ -303,7 +199,7 @@ $('body').delegate('#salesPrice1', 'keyup', (e) => {
     }
 });
 
-$('body').delegate('#percentageProfit1', 'keyup', (e) => {
+$('#percentageProfit1').on('keyup', (e) => {
     if (e.currentTarget.value > 99)
         e.currentTarget.value = 99;
 
@@ -327,7 +223,7 @@ $('body').delegate('#percentageProfit1', 'keyup', (e) => {
     }
 });
 
-$('body').delegate('#salesPrice2', 'keyup', (e) => {
+$('#salesPrice2').on('keyup', (e) => {
     let salesPrice2 = e.currentTarget;
     let purchasePrice = $('#purchasePrice').val() != '' ? Math.round($('#purchasePrice').val() * 100) / 100 : '';
 
@@ -344,7 +240,7 @@ $('body').delegate('#salesPrice2', 'keyup', (e) => {
     }
 });
 
-$('body').delegate('#percentageProfit2', 'keyup', (e) => {
+$('#percentageProfit2').on('keyup', (e) => {
     if (e.currentTarget.value > 99)
         e.currentTarget.value = 99;
 
@@ -364,76 +260,339 @@ $('body').delegate('#percentageProfit2', 'keyup', (e) => {
     }
 });
 
-const buildTableProducts = () => {
+const buildTableProducts = (productModel) => {
+    let previousPage = document.getElementById('previousPage');
+    let pageNumber = document.getElementById('pageNumber');
+    let totalPage = document.getElementById('totalPage');
+    let nextPage = document.getElementById('nextPage');
 
-    getAllProducts().then((products) => {
+    pageNumber.value = productModel.filters.pageNumber;
+    totalPage.innerText = productModel.filters.totalPage;
 
-        if (products != null && products.length > 0) {
+    if (productModel.filters.pageNumber == 1)
+        previousPage.setAttribute('disabled', '');
+    else
+        previousPage.removeAttribute('disabled');
 
-            let tableProducts = $('#tableProducts').DataTable();
-            let data = new Array();
+    if (productModel.filters.pageNumber == productModel.filters.totalPage)
+        nextPage.setAttribute('disabled', '');
+    else
+        nextPage.removeAttribute('disabled');
 
-            products.map((item) => {
+    let tblProducts = document.getElementById('tblProducts');
+    tblProducts.innerHTML = '';
 
-                let btnUpdateProduct = document.createElement('button');
-                btnUpdateProduct.classList.add('btn', 'btn-secondary', 'mr-1', 'btnUpdateProduct');
+    productModel.products.map((item) => {
 
-                let iconUpdate = document.createElement('i');
-                iconUpdate.classList.add('fa-solid', 'fa-pen');
+        let btnUpdateProduct = document.createElement('button');
+        btnUpdateProduct.classList.add('btn', 'btn-secondary', 'm-1', 'btnUpdateProduct');
 
-                btnUpdateProduct.append(iconUpdate);
-                btnUpdateProduct.setAttribute('idProduct', item.productId);
+        let iconUpdate = document.createElement('i');
+        iconUpdate.classList.add('fa-solid', 'fa-pen');
 
-                let btnDeleteProduct = document.createElement('button');
-                btnDeleteProduct.classList.add('btn', 'btn-danger', 'btnDeleteProduct');
+        btnUpdateProduct.append(iconUpdate);
+        btnUpdateProduct.setAttribute('idProduct', item.productId);
 
-                let iconDelete = document.createElement('i');
-                iconDelete.classList.add('fa-solid', 'fa-trash');
+        let btnDeleteProduct = document.createElement('button');
+        btnDeleteProduct.classList.add('btn', 'btn-danger', 'm-1', 'btnDeleteProduct');
 
-                btnDeleteProduct.append(iconDelete);
-                btnDeleteProduct.setAttribute('idProduct', item.productId);
+        let iconDelete = document.createElement('i');
+        iconDelete.classList.add('fa-solid', 'fa-trash');
 
+        btnDeleteProduct.append(iconDelete);
+        btnDeleteProduct.setAttribute('idProduct', item.productId);
 
-                let btnAddStockProduct = document.createElement('button');
-                btnAddStockProduct.classList.add('btn', 'btn-info', 'btnAddStockProduct');
+        let btnAddStockProduct = document.createElement('button');
+        btnAddStockProduct.classList.add('btn', 'btn-info', 'm-1', 'btnAddStockProduct');
 
-                let iconAdd = document.createElement('i');
-                iconAdd.classList.add('fa-solid', 'fa-plus', 'text-white');
+        let iconAdd = document.createElement('i');
+        iconAdd.classList.add('fa-solid', 'fa-plus', 'text-white');
 
-                btnAddStockProduct.append(iconAdd);
-                btnAddStockProduct.setAttribute('idProduct', item.productId);
+        btnAddStockProduct.append(iconAdd);
+        btnAddStockProduct.setAttribute('idProduct', item.productId);
 
-                data.push({
-                    'barCode': item.barCode,
-                    'name': item.nameProduct,
-                    'description': item.description,
-                    'expirationDate': item.expirationDate != null ? new Date(item.expirationDate).toLocaleDateString() : '',
-                    'measurementUnit': item.icon,
-                    'stock': item.stock,
-                    'minimumStock': item.minimumStock,
-                    'purchasePrice': item.purchasePrice,
-                    'salesPrice1': item.salesPrice1,
-                    'percentageProfit1': item.percentageProfit1,
-                    'revenue1': item.revenue1,
-                    'salesPrice2': item.salesPrice2 > 0 ? item.salesPrice2 : '',
-                    'percentageProfit2': item.percentageProfit2 > 0 ? item.percentageProfit2 : '',
-                    'revenue2': item.revenue2 > 0 ? item.revenue2 : '',
-                    'wholesale': item.wholesale2 > 0 ? `${item.wholesale2} <samllz${item.icon}</small>` : '',
-                    'departmentName': '',
-                    '': `${btnAddStockProduct.outerHTML} ${btnUpdateProduct.outerHTML} ${btnDeleteProduct.outerHTML}`
-                });
+        let tr = document.createElement('tr');
+
+        let barCode = document.createElement('th');
+        barCode.innerText = item.barCode;
+        barCode.setAttribute('colspan', '2');
+        tr.appendChild(barCode);
+
+        let nameProduct = document.createElement('th');
+        nameProduct.innerText = item.nameProduct;
+        nameProduct.setAttribute('colspan', '4');
+        tr.appendChild(nameProduct);
+
+        let description = document.createElement('th');
+        description.innerText = item.description;
+        description.setAttribute('colspan', '5');
+        tr.appendChild(description);
+
+        let expirationDate = document.createElement('th');
+        expirationDate.innerText = item.expirationDate != null ? new Date(item.expirationDate).toLocaleDateString() : '';
+        tr.appendChild(expirationDate);
+
+        let measurementUnit = document.createElement('th');
+        measurementUnit.innerHTML = item.icon;
+        tr.appendChild(measurementUnit);
+
+        let stock = document.createElement('th');
+        stock.innerText = item.stock;
+        tr.appendChild(stock);
+
+        let minimumStock = document.createElement('th');
+        minimumStock.innerText = item.minimumStock;
+        tr.appendChild(minimumStock);
+
+        let purchasePrice = document.createElement('th');
+        purchasePrice.innerText = item.purchasePrice.toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+        });
+        tr.appendChild(purchasePrice);
+
+        let salesPrice1 = document.createElement('th');
+        salesPrice1.innerText = item.salesPrice1.toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+        });
+        tr.appendChild(salesPrice1);
+
+        let percentageProfit1 = document.createElement('th');
+        percentageProfit1.innerText = parseFloat(item.percentageProfit1).toFixed(2) + "%";
+        tr.appendChild(percentageProfit1);
+
+        let revenue1 = document.createElement('th');
+        revenue1.innerText = item.revenue1.toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+        });
+        tr.appendChild(revenue1);
+
+        let salesPrice2 = document.createElement('th');
+        salesPrice2.innerText = item.salesPrice2 > 0 ? item.salesPrice2.toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+        }) : '';
+        tr.appendChild(salesPrice2);
+
+        let percentageProfit2 = document.createElement('th');
+        percentageProfit2.innerText = item.percentageProfit2 > 0 ? parseFloat(item.percentageProfit2).toFixed(2) + "%" : '';
+        tr.appendChild(percentageProfit2);
+
+        let revenue2 = document.createElement('th');
+        revenue2.innerText = item.revenue2 > 0 ? item.revenue2.toLocaleString('es-MX', {
+            style: 'currency',
+            currency: 'MXN'
+        }) : '';
+        tr.appendChild(revenue2);
+
+        let wholesale = document.createElement('th');
+        wholesale.innerHTML = item.wholesale2 > 0 ? `${item.wholesale2} <samll>${item.icon}</small>` : '';
+        tr.appendChild(wholesale);
+
+        let deparmentName = document.createElement('th');
+        deparmentName.innerText = item.deparmentName;
+        tr.appendChild(deparmentName);
+
+        let actions = document.createElement('th');
+        actions.innerHTML = `${btnAddStockProduct.outerHTML} ${btnUpdateProduct.outerHTML} ${btnDeleteProduct.outerHTML}`;
+        tr.appendChild(actions);
+
+        tblProducts.appendChild(tr);
+
+        $('.btnAddStockProduct').on('click', (e) => {
+            let idProduct = e.currentTarget.getAttribute('idProduct');
+            $('#loadingPage').fadeIn(1);
+
+            getProductById(idProduct).then((res) => {
+                if (res != null) {
+                    $('#nameStockProduct').text(res.name);
+                    $('#btnAddStock').attr('data-id', res.id);
+                    $('#actuallyStockProduct').val(res.stock);
+                    $('#newStockProduct').val('');
+                    $('#AddStockProductModal').modal('show');
+                    $('#loadingPage').fadeOut(1);
+                }
+                else {
+                    $('#loadingPage').fadeOut(1);
+                    dinamicAlert({ title: '¡Ocurrio un error!', text: 'Por favor recargue la pagína e intente nuevamente', type: 'error' });
+                }
             });
+        });
 
-            tableProducts.clear().draw();
-            tableProducts.rows.add(data); // Add new data
-            tableProducts.columns.adjust().draw(); // Redraw the DataTable
+        $('.btnUpdateProduct').on('click', (e) => {
+            $('#loadingPage').fadeIn(1);
+            e.currentTarget.disabled = true;
+            let productId = e.currentTarget.getAttribute('idProduct');
+
+            getProductById(productId).then((product) => {
+                if (product != null) {
+                    buildModalProductEdit(product);
+                }
+                else {
+                    $('#loadingPage').fadeOut(1);
+                    dinamicAlert({ title: '¡Ocurrio un error!', text: 'Por favor recargue la pagína e intente nuevamente', type: 'error' });
+                }
+            });
+        });
+
+        $('.btnDeleteProduct').on('click', (e) => {
+            let idProduct = parseInt(e.currentTarget.getAttribute('idProduct'));
+
+            Swal.fire({
+                title: '¿Estas seguro de eliminar?',
+                text: "¡Los cambios no podran revertirse!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#0d6efd',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Aceptar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $('#loadingPage').fadeIn(1);
+
+                    deleteProduct(idProduct).then((res) => {
+                        if (res != null && res > 0) {
+                            getProducts('', 1, 5);
+                            dinamycTimerAlert({ title: '¡Eliminado correctamente!', text: 'El producto ha sido eliminado', type: 'success' });
+                        }
+                        else {
+                            $('#loadingPage').fadeOut(1);
+                            dinamicAlert({ title: '¡Ocurrio un error!', text: 'Por favor recargue la pagína e intente nuevamente', type: 'error' });
+                        }
+                    });
+                }
+            });
+        });
+    });
+    $('#loadingPage').fadeOut(1);
+}
+
+document.getElementById('nextPage').addEventListener('click', (e) => {
+    let textSearchInput = document.getElementById('textSearchProduct');
+    let pageNumber = document.getElementById('pageNumber').value;
+
+    if (pageNumber != '') {
+        if (textSearchInput.value != '')
+            getProducts(textSearchInput.value.trim(), parseInt(pageNumber, 10) + 1, 5);
+        else
+            getProducts('', parseInt(pageNumber, 10) + 1, 5);
+    }
+});
+
+document.getElementById('previousPage').addEventListener('click', (e) => {
+    let textSearchInput = document.getElementById('textSearchProduct');
+    let pageNumber = document.getElementById('pageNumber').value;
+
+    if (pageNumber != '') {
+        if (textSearchInput.value != '')
+            getProducts(textSearchInput.value.trim(), parseInt(pageNumber, 10) - 1, 5);
+        else
+            getProducts('', parseInt(pageNumber, 10) - 1, 5);
+    }
+});
+
+document.getElementById('pageNumber').addEventListener('change', (e) => {
+    let pageNumberInput = e.currentTarget;
+    let pageNumber = pageNumberInput.value;
+    let textSearchInput = document.getElementById('textSearchProduct');
+    let totalPage = parseInt(document.getElementById('totalPage').textContent, 10);
+
+    const regex = /^[1-9]\d*$/;
+
+    if (regex.test(pageNumber) && parseInt(pageNumber, 10) <= totalPage) {
+        if (textSearchInput.value != '')
+            getProducts(textSearchInput.value.trim(), parseInt(pageNumber, 10), 5);
+        else
+            getProducts('', parseInt(pageNumber, 10), 5);
+    }
+    else {
+        pageNumberInput.value = 1;
+
+        if (textSearchInput.value != '') {
+            getProducts(textSearchInput.value.trim(), parseInt(pageNumberInput.value, 10), 5);
         }
         else {
-            $('#tableProducts').DataTable().clear().draw();
+            getProducts('', parseInt(pageNumberInput.value, 10), 5);
         }
+    }
+});
 
-        $('#loadingPage').fadeOut(1);
-    });
+document.getElementById('textSearchProduct').addEventListener('change', (e) => {
+    document.getElementById('searchProduct').click();
+});
+
+document.getElementById('searchProduct').addEventListener('click', (e) => {
+    let textSearchInput = document.getElementById('textSearchProduct');
+    let pageNumber = 1;
+    let totalPage = 5;
+
+    if (textSearchInput.value != '')
+        getProducts(textSearchInput.value.trim(), pageNumber, totalPage);
+    else
+        getProducts('', pageNumber, totalPage);
+});
+
+//document.getElementById('btnBulkLoadProduct').addEventListener('click', (e) => {
+//    document.getElementById('inputFileBulkLoadProduct').click();
+//});
+
+//document.getElementById('inputFileBulkLoadProduct').addEventListener('change', (e) => {debugger
+//    let inputFile = e.currentTarget.files[0];
+
+//    if (inputFile) {
+//        if (inputFile.type != 'text/csv')
+//            return dynamicAlert({ type: 'error', title: '¡Archivo no valido!', text: 'Por favor, seleccione un archivo CSV.'});
+
+//        let formData = new FormData();
+//        formData.append('bulkLoadProductFile', inputFile);
+//        const url = new URL(`${window.location.href}/UploadBulkLoadProduct`);
+
+//        fetch(url, {
+//            method: 'POST',
+//            body: formData
+//        })
+//            .then(response => {
+//                if (response.ok) {
+//                    // Procesar respuesta exitosa
+//                    console.log('Archivo subido exitosamente');
+//                } else {
+//                    // Manejar errores
+//                    console.error('Error al subir el archivo');
+//                }
+//            })
+//            .catch(error => {
+//                console.error('Error de red:', error);
+//            });
+//    } else {
+//        console.error('No se ha seleccionado ningún archivo.');
+//    }
+//});
+
+const getProducts = (textSearch, pageNumber, pageSize) => {
+    if (textSearch != '') {
+        getProductByNameOrDescription(textSearch.trim(), parseInt(pageNumber, 10), pageSize).then((res) => {
+            if (res != null && res.products.length > 0) {
+                buildTableProducts(res);
+            }
+            else {
+                document.getElementById('tblProducts').innerHTML = '';
+                document.getElementById('pageNumber').value = '';
+                document.getElementById('totalPage').innerText = '';
+                dinamycTimerAlert({ 'type': 'warning', 'title': '¡No se encontraron coincidencias!', 'text': '' });
+            }
+        });
+    }
+    else {
+        getAllProducts(parseInt(pageNumber, 10), pageSize).then((res) => {
+            if (res != null && res.products.length > 0) {
+                buildTableProducts(res);
+            }
+        });
+    }
 }
 
 const buildModalProductEdit = (product) => {
@@ -742,9 +901,30 @@ const getDateDDMMYYYYHHMMByDateTime = (dateTime) => {
 
 /* * *  Call API  * */
 
-const getAllProducts = async () => {
+const getAllProducts = async (pageNumber, pageSize) => {
     let data = new Array();
     const url = new URL(`${window.location.href}/GetAllProducts`);
+    url.searchParams.set('pageNumber', pageNumber);
+    url.searchParams.set('pageSize', pageSize);
+
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    data = await response.json();
+
+    return data;
+}
+
+const getProductByNameOrDescription = async (keyWord, pageNumber, pageSize) => {
+    let data = new Array();
+    const url = new URL(`${window.location.href}/GetProductByNameOrDescriptionPaginate`);
+    url.searchParams.set('keyWord', keyWord);
+    url.searchParams.set('pageNumber', pageNumber);
+    url.searchParams.set('pageSize', pageSize);
 
     const response = await fetch(url, {
         method: 'GET',
