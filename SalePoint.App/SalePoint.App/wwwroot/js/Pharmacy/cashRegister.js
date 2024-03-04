@@ -479,15 +479,16 @@ const dinamycTimerAlert = (settings) => {
 const printCashFlowTicket = (cashFlow) => {
     let text1 = 'retiro';
     let text2 = 'ingreso';
-    //<img src="https://farmaymas.mx/wp-content/uploads/2022/06/farma-vecto-scaled.webp" width="70" height="30"><br>
+    const ticketInfo = JSON.parse(localStorage.getItem("ticketInfo"));
+    const pathLogo = localStorage.getItem("pathLogo");
 
     let template = `
 
                     <div style="width: 300px; padding: 5px;">
                         <div style="text-align: center;">
                             <img src="~/images/Logo.png" width="70" height="30"><br>
-                            <label style="font-size: x-large; font-weight: 600;">Abarrtotes Mike</label><br>
-                            <label style="margin-top: 5px;">Av del Trabajo</label><br>
+                            <label style="font-size: x-large; font-weight: 600;">${ticketInfo.companyName}</label><br>
+                            <label style="margin-top: 5px;">${ticketInfo.address}</label><br>
                             <div style="margin-top: 5px;">
                                 <label>${getDateDDMMYYYYHHMM()}</label>
                             </div>
@@ -507,9 +508,8 @@ const printCashFlowTicket = (cashFlow) => {
                         </div>
                         <hr>
                         <div style="text-align: center;">
-                            <label>**************************************</label>
-                            <label>Agradecemos su preferencia</label><br>
-                            <label>¡Vuelva pronto!</label>
+                            <p>**************************************</p>
+                            <p>${ticketInfo.footer}</p>
                         </div>
                     </div>`;
 

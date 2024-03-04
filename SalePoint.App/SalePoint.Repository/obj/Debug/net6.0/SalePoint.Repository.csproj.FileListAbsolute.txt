@@ -70,8 +70,8 @@ C:\Projects\SalePointApp\SalePoint.App\SalePoint.Repository\obj\Debug\net6.0\Sal
 C:\Projects\SalePointApp\SalePoint.App\SalePoint.Repository\obj\Debug\net6.0\SalePoint.Repository.AssemblyInfo.cs
 C:\Projects\SalePointApp\SalePoint.App\SalePoint.Repository\obj\Debug\net6.0\SalePoint.Repository.csproj.CoreCompileInputs.cache
 C:\Projects\SalePointApp\SalePoint.App\SalePoint.Repository\obj\Debug\net6.0\SalePoint.Repository.sourcelink.json
-C:\Projects\SalePointApp\SalePoint.App\SalePoint.Repository\obj\Debug\net6.0\SalePoint.Repository.csproj.CopyComplete
 C:\Projects\SalePointApp\SalePoint.App\SalePoint.Repository\obj\Debug\net6.0\SalePoint.Repository.dll
 C:\Projects\SalePointApp\SalePoint.App\SalePoint.Repository\obj\Debug\net6.0\refint\SalePoint.Repository.dll
 C:\Projects\SalePointApp\SalePoint.App\SalePoint.Repository\obj\Debug\net6.0\SalePoint.Repository.pdb
 C:\Projects\SalePointApp\SalePoint.App\SalePoint.Repository\obj\Debug\net6.0\ref\SalePoint.Repository.dll
+C:\Projects\SalePointApp\SalePoint.App\SalePoint.Repository\obj\Debug\net6.0\SalePoin.E76A1DF0.Up2Date

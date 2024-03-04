@@ -174,6 +174,7 @@ const buildTableUsers = () => {
         if (users != null && users.length > 0) {
             let tableUsers = $('#tableUsers').DataTable();
             let data = new Array();
+            let userId = $('#userIdLogged').val();
 
             users.map((item) => {
 
@@ -203,11 +204,7 @@ const buildTableUsers = () => {
                     'description': item.description,
                     'rol': item.rol.name,
                     'userName': item.userName,
-                    '': `${btnUpdateUser.outerHTML} ${btnDeleteUser.outerHTML}`
-                });
-
-                btnUpdateUser.addEventListener('click', (e) => {
-                    console.log(item.id);
+                    '': `${btnUpdateUser.outerHTML} ${userId == item.id ? '' : btnDeleteUser.outerHTML}`
                 });
             });
 

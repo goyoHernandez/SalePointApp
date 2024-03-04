@@ -1,4 +1,6 @@
 ﻿$(() => {
+    document.getElementById('wholesaleApply').classList.add('visually-hidden');
+
     $('#loadingPage').fadeIn(1);
 
     $('#tableSellProducts').DataTable({
@@ -645,13 +647,14 @@ const payProducts = async (cash, moneyChange) => {
 
             if (saleId > 0) {
                 const ticketInfo = JSON.parse(localStorage.getItem("ticketInfo"));
+                const pathLogo = localStorage.getItem("pathLogo");
 
                 let total = $('#wholePurchase').val();
 
                 let template = `
                                     <div style="width: 300px; padding: 5px;">
                                         <div style="text-align: center;">
-                                            <img src="~/images/Logo.png" width="70" height="30"><br>
+                                            <img src="~${pathLogo}" width="70" height="30"><br>
                                             <label style="font-size: x-large; font-weight: 600;">${ticketInfo.companyName}</label></br>
                                             <label style="margin-top: 5px;">${ticketInfo.address}</label><br>
                                             <label style="margin-top: 5px;">${getDateDDMMYYYYHHMM()}</label><br>

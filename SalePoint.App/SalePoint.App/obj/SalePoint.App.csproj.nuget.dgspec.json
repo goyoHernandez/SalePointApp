@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.App\\SalePoint.App.csproj": {}
+    "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.App\\SalePoint.App.csproj": {}
   },
   "projects": {
-    "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.App\\SalePoint.App.csproj": {
+    "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.App\\SalePoint.App.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.App\\SalePoint.App.csproj",
+        "projectUniqueName": "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.App\\SalePoint.App.csproj",
         "projectName": "SalePoint.App",
-        "projectPath": "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.App\\SalePoint.App.csproj",
+        "projectPath": "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.App\\SalePoint.App.csproj",
         "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.App\\obj\\",
+        "outputPath": "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.App\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -22,7 +22,7 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -31,14 +31,14 @@
           "https://pkgs.dev.azure.com/brive/Yooin_Empresas/_packaging/Brive_Artifacts/nuget/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.Primitives\\SalePoint.Primitives.csproj": {
-                "projectPath": "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.Primitives\\SalePoint.Primitives.csproj"
+              "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.Primitives\\SalePoint.Primitives.csproj": {
+                "projectPath": "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.Primitives\\SalePoint.Primitives.csproj"
               },
-              "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.Repository\\SalePoint.Repository.csproj": {
-                "projectPath": "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.Repository\\SalePoint.Repository.csproj"
+              "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.Repository\\SalePoint.Repository.csproj": {
+                "projectPath": "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.Repository\\SalePoint.Repository.csproj"
               }
             }
           }
@@ -47,11 +47,16 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
@@ -81,18 +86,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.Primitives\\SalePoint.Primitives.csproj": {
+    "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.Primitives\\SalePoint.Primitives.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.Primitives\\SalePoint.Primitives.csproj",
+        "projectUniqueName": "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.Primitives\\SalePoint.Primitives.csproj",
         "projectName": "SalePoint.Primitives",
-        "projectPath": "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.Primitives\\SalePoint.Primitives.csproj",
+        "projectPath": "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.Primitives\\SalePoint.Primitives.csproj",
         "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.Primitives\\obj\\",
+        "outputPath": "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.Primitives\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -103,7 +108,7 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -112,8 +117,8 @@
           "https://pkgs.dev.azure.com/brive/Yooin_Empresas/_packaging/Brive_Artifacts/nuget/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -121,11 +126,16 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "imports": [
             "net461",
             "net462",
@@ -142,18 +152,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.Repository\\SalePoint.Repository.csproj": {
+    "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.Repository\\SalePoint.Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.Repository\\SalePoint.Repository.csproj",
+        "projectUniqueName": "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.Repository\\SalePoint.Repository.csproj",
         "projectName": "SalePoint.Repository",
-        "projectPath": "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.Repository\\SalePoint.Repository.csproj",
+        "projectPath": "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.Repository\\SalePoint.Repository.csproj",
         "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.Repository\\obj\\",
+        "outputPath": "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.Repository\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -164,7 +174,7 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -173,11 +183,11 @@
           "https://pkgs.dev.azure.com/brive/Yooin_Empresas/_packaging/Brive_Artifacts/nuget/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.Primitives\\SalePoint.Primitives.csproj": {
-                "projectPath": "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.Primitives\\SalePoint.Primitives.csproj"
+              "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.Primitives\\SalePoint.Primitives.csproj": {
+                "projectPath": "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.Primitives\\SalePoint.Primitives.csproj"
               }
             }
           }
@@ -186,11 +196,16 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.Extensions.Http": {
               "target": "Package",
@@ -213,7 +228,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
