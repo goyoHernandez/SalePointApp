@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FkE25Vm2DZZHoGL+Rw7o7/nZC8b38d+hwddEN5l93oqw1NrHbds2Ls96i6fS4YqAUpYv/9+Pe8ggzDRvVlyvDA==",
+  "dgSpecHash": "oBgpDbzRVrWZZlsNpxqT4Rm6Twtp2I9ucPnGFN7A55l9OgMuHZp9/ZPS+ZdLlqQQklD+UKY9YG7D0dJk4hUgTA==",
   "success": true,
-  "projectFilePath": "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.Repository\\SalePoint.Repository.csproj",
+  "projectFilePath": "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.Repository\\SalePoint.Repository.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
@@ -10,8 +10,7 @@
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.logging\\7.0.0\\microsoft.extensions.logging.7.0.0.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.options\\7.0.0\\microsoft.extensions.options.7.0.0.nupkg.sha512",
-    "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
-    "C:\\Users\\USER\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+    "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512"
   ],
   "logs": []
 }

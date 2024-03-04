@@ -321,12 +321,15 @@ const validateFilters = (filters) => {
 }
 
 const printTicket = (productReturns, nameProduct) => {
+    const ticketInfo = JSON.parse(localStorage.getItem("ticketInfo"));
+    const pathLogo = localStorage.getItem("pathLogo");
+
     let template = `
                                 <div style="width: 300px; padding: 5px;">
                                     <div style="text-align: center;">
-                                        <img src="~/images/Logo.png" width="70" height="30"><br>
-                                        <label style="font-size: x-large; font-weight: 600;">Abarrtotes Mike</label></br>
-                                        <label style="margin-top: 5px;">Av del Trabajo</label><br>
+                                        <img src="~${pathLogo}" width="70" height="30"><br>
+                                        <label style="font-size: x-large; font-weight: 600;">${ticketInfo.companyName}</label></br>
+                                        <label style="margin-top: 5px;">${ticketInfo.address}</label><br>
                                         <label style="margin-top: 5px;">${getDateDDMMYYYYHHMM()}</label><br>
                                         <label>*** Ticket por devolución ***</label>
                                     </div>
@@ -340,8 +343,7 @@ const printTicket = (productReturns, nameProduct) => {
                                     <hr>
                                     <div style="text-align: center;">
                                         <p>**************************************</p>
-                                        <p>Agradecemos su preferencia</p>
-                                        <p>¡Vuelva pronto!</p>
+                                        <p>${ticketInfo.footer}</p>
                                     </div>
                                 </div>
                                  `;

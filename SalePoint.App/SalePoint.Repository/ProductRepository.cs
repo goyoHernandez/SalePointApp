@@ -272,7 +272,7 @@ namespace SalePoint.Repository
                 var client = _httpClient.CreateClient("SalePoinApi");
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-                var response = await client.GetAsync($"GetBy/NameOrDescription/{keyWord}/pageNumber/{pageNumber}/pageSize/{pageSize}");
+                var response = await client.GetAsync($"Product/GetBy/NameOrDescription/{keyWord}/pageNumber/{pageNumber}/pageSize/{pageSize}");
 
                 if (response.IsSuccessStatusCode)
                 {

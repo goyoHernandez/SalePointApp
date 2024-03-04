@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7l59VJ1nbufdb0nBI9xPeQJNQHc+aa6jbSNCxJXXLzn2F0OTV4gMqPhFrRLd1JkhoeXa9grUAQx38TJbZDddZQ==",
+  "dgSpecHash": "osfh3i+mEZ9MXiw9lCyFRQICvA8Id+0Fg66qXuQwbvA9Nu3Dk11S1ErtAGd6zds94W+d9T5gzUtdPPXROpMuyw==",
   "success": true,
-  "projectFilePath": "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.App\\SalePoint.App.csproj",
+  "projectFilePath": "C:\\Projects\\Punto de venta v2.1.2\\SalePointApp\\SalePoint.App\\SalePoint.App\\SalePoint.App.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\USER\\.nuget\\packages\\humanizer.core\\2.2.0\\humanizer.core.2.2.0.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",

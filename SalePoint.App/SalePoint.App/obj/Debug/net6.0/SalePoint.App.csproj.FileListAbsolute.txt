@@ -1298,9 +1298,9 @@ C:\Projects\SalePointApp\SalePoint.App\SalePoint.App\obj\Debug\net6.0\staticweba
 C:\Projects\SalePointApp\SalePoint.App\SalePoint.App\obj\Debug\net6.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Projects\SalePointApp\SalePoint.App\SalePoint.App\obj\Debug\net6.0\scopedcss\bundle\SalePoint.App.styles.css
 C:\Projects\SalePointApp\SalePoint.App\SalePoint.App\obj\Debug\net6.0\scopedcss\projectbundle\SalePoint.App.bundle.scp.css
-C:\Projects\SalePointApp\SalePoint.App\SalePoint.App\obj\Debug\net6.0\SalePoint.App.csproj.CopyComplete
 C:\Projects\SalePointApp\SalePoint.App\SalePoint.App\obj\Debug\net6.0\SalePoint.App.dll
 C:\Projects\SalePointApp\SalePoint.App\SalePoint.App\obj\Debug\net6.0\refint\SalePoint.App.dll
 C:\Projects\SalePointApp\SalePoint.App\SalePoint.App\obj\Debug\net6.0\SalePoint.App.pdb
 C:\Projects\SalePointApp\SalePoint.App\SalePoint.App\obj\Debug\net6.0\SalePoint.App.genruntimeconfig.cache
 C:\Projects\SalePointApp\SalePoint.App\SalePoint.App\obj\Debug\net6.0\ref\SalePoint.App.dll
+C:\Projects\SalePointApp\SalePoint.App\SalePoint.App\obj\Debug\net6.0\SalePoin.DD92AE67.Up2Date

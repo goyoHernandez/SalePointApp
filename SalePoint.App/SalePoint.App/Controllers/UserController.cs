@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SalePoint.Primitives;
 using SalePoint.Primitives.Interfaces;
+using System.Security.Claims;
 
 namespace SalePoint.App.Controllers
 {
@@ -17,6 +18,13 @@ namespace SalePoint.App.Controllers
         [Authorize(Roles = "Administrador")]
         public IActionResult Index()
         {
+            int userId = 0;
+
+            if (User.Identity is ClaimsIdentity claimsIdentity)
+                userId = int.Parse(claimsIdentity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault()!);
+
+            ViewBag.UserId = userId; 
+                
             return View();
         }
 
