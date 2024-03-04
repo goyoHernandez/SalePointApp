@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SalePoint.Repository")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b938af2111f7d6313598de040f026b8423c9d2ab")]
 [assembly: System.Reflection.AssemblyProductAttribute("SalePoint.Repository")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SalePoint.Repository")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

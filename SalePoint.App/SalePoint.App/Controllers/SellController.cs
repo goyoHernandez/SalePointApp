@@ -52,7 +52,7 @@ namespace SalePoint.App.Controllers
                 sellerItemsTypes.ForEach(z => z.UserId = userId);
             }
 
-            return Ok(await _sellRepository.SellItems(sellerItemsTypes));
+            return Ok(await _sellRepository.SellItems(sellerItemsTypes, HttpContext.Session.GetString("TokenAuth")!));
         }
     }
 }

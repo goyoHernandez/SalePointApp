@@ -16,12 +16,13 @@ namespace SalePoint.Repository
         }
 
 
-        public async Task<int> SellItems(List<SellerItemsType> sellerItemsTypes)
+        public async Task<int> SellItems(List<SellerItemsType> sellerItemsTypes, string token)
         {
             int saleId = 0;
             try
             {
                 HttpClient client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
                 string? jsonString = JsonSerializer.Serialize(sellerItemsTypes);
                 StringContent? requestContent = new(jsonString, Encoding.UTF8, "application/json");

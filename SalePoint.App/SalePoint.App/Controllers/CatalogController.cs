@@ -18,7 +18,7 @@ namespace SalePoint.App.Controllers
 
         public async Task<IActionResult> GetMeasurementUnit()
         {
-            return Ok(await _catalogRepository.GetMeasurementUnit());
+            return Ok(await _catalogRepository.GetMeasurementUnit(HttpContext.Session.GetString("TokenAuth")!));
         }
     }
 }

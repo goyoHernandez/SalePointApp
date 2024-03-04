@@ -13,12 +13,14 @@ namespace SalePoint.Repository
         {
             _httpClient = httpClient;
         }
-        public async Task<IEnumerable<MeasurementUnit>?> GetMeasurementUnit()
+        public async Task<IEnumerable<MeasurementUnit>?> GetMeasurementUnit(string token)
         {
             IEnumerable<MeasurementUnit>? measurementUnits = null;
             try
             {
                 var client = _httpClient.CreateClient("SalePoinApi");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
                 var response = await client.GetAsync("MeasurementUnit");
 
                 if (response.IsSuccessStatusCode)

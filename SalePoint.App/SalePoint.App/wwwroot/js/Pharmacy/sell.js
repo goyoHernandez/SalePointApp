@@ -1,11 +1,7 @@
-﻿$(document).ready(() => {
-
+﻿$(() => {
     $('#loadingPage').fadeIn(1);
 
     $('#tableSellProducts').DataTable({
-        //'autoWidth': false,
-        //'responsive': true,
-        //'scrollX': true,
         'language': language,
         'destroy': true,
         'lengthChange': false,
@@ -13,7 +9,6 @@
         "ordering": false,
         "searching": false,
         "info": false,
-        /* 'dom': 'Rlfrtip',*/
         scrollX: true,
         scrollCollapse: true,
         fixedColumns: {
@@ -132,39 +127,33 @@
     });
 });
 
-$('body').delegate('#btnSearchProduct', 'click', (e) => {
+$('#btnSearchProduct').on('click', (e) => {
+    $('#txtNameDescriptionProduct').val('');
+    $('#tableSearchProducts').DataTable().clear().draw();
     $('#modalProducts').modal('show');
-
-    //$('#loadingPage').fadeIn(1);
-
-    //getAllProducts().then((products) => {
-
-    //    if (products != null && products.length > 0) {
-    //        buildTableProducts(products);
-    //        document.getElementById('btnAddProductToSale').disabled = true;
-    //    }
-    //    else {
-    //        $('#loadingPage').fadeOut(1);
-    //    }
-    //});
 });
 
-$('body').delegate('#btnSearchProductByNameDescription', 'click', (e) => {
+$('#btnSearchProductByNameDescription').on('click', (e) => {
     let keyWord = document.getElementById('txtNameDescriptionProduct').value;
 
-    if (keyWord != '' && keyWord.length >= 3 ) {
+    if (keyWord != '' && keyWord.length >= 3) {
 
         $('#loadingPage').fadeIn(1);
 
-        getProductByNameOrDescription(keyWord.trim()).then((products) => {
+        getProductByNameOrDescription(keyWord.trim()).then((productModel) => {
 
-            if (products != null && products.length > 0) {
-                buildTableProducts(products);
+            if (productModel != null && productModel.products.length > 0) {
+                buildTableProducts(productModel.products);
                 document.getElementById('btnAddProductToSale').disabled = true;
                 $('#modalProducts').modal('show');
             }
             else {
                 $('#loadingPage').fadeOut(1);
+                dinamicAlert({
+                    title: '¡No se encontraron coincidencias!',
+                    text: 'Intente con otro producto.',
+                    type: 'warning'
+                });
             }
         });
     }
@@ -177,7 +166,7 @@ $('body').delegate('#btnSearchProductByNameDescription', 'click', (e) => {
     }
 });
 
-$('body').delegate('#btnAddProduct', 'click', (e) => {
+$('#btnAddProduct').on('click', (e) => {
     let txtBarCode = document.getElementById('txtBarCode').value;
 
     if (txtBarCode != '') {
@@ -217,7 +206,7 @@ $('body').delegate('#btnAddProduct', 'click', (e) => {
     }
 });
 
-$('body').delegate('#btnChargeProducts', 'click', (e) => {
+$('#btnChargeProducts').on('click', (e) => {
     let total = $('#wholePurchase').val() != '' ? Math.round($('#wholePurchase').val() * 100) / 100 : 0;
 
     if (total > 0) {
@@ -235,20 +224,50 @@ $('body').delegate('#btnChargeProducts', 'click', (e) => {
     }
 });
 
-$('body').delegate('#txtCash', 'keyup', (e) => {
+$('#txtCash').on('input', (e) => {
 
-    let cash = Math.round(e.currentTarget.value, 10);
-    let amountPayable = Math.round($('#txtAmountPayable').val(), 10);
+    //let cash = Math.round(e.currentTarget.value, 10);
+    //let amountPayable = Math.round($('#txtAmountPayable').val(), 10);
 
-    $('#txtMoneyChange').val(cash - amountPayable);
+    //$('#txtMoneyChange').val(cash - amountPayable);
 
-    if (cash >= amountPayable)
-        $('#btnPayProductos').attr('disabled', false);
-    else
+    //if (cash >= amountPayable) {
+    //    $('#btnPayProductos').attr('disabled', false);
+
+    //    if (e.which === 13)
+    //        $('#btnPayProductos').trigger('click');
+    //}
+    //else
+    //    $('#btnPayProductos').attr('disabled', true);
+
+    let cash = parseFloat(e.currentTarget.value);
+    let amountPayable = parseFloat($('#txtAmountPayable').val());
+
+    if (!isNaN(cash) && cash >= amountPayable) {
+        // Redondear al decimal más cercano
+        cash = Math.round(cash * 10) / 10;
+
+        $('#txtCash').val(cash);  // Actualizar el valor en el campo
+
+        $('#txtMoneyChange').val(Math.round((cash - amountPayable) * 10) / 10);
+
+        if (cash >= amountPayable) {
+            $('#btnPayProductos').attr('disabled', false);
+
+            if (e.which === 13) {
+                $('#btnPayProductos').trigger('click');
+            }
+        } else {
+            $('#btnPayProductos').attr('disabled', true);
+        }
+    }
+    else {
+        $('#txtMoneyChange').val('');
         $('#btnPayProductos').attr('disabled', true);
+    }
 });
 
-$('body').delegate('#btnPayProductos', 'click', (e) => {
+$('#btnPayProductos').on('click', (e) => {
     $('#loadingPage').fadeIn(1);
     let cash = $('#txtCash').val() != '' ? Math.round($('#txtCash').val() * 100) / 100 : 0;
     let amountPayable = $('#txtAmountPayable').val() != '' ? Math.round($('#txtAmountPayable').val() * 100) / 100 : 0;
@@ -305,7 +324,7 @@ $('#tableSellProducts tbody').on('change', '[id*=inputStock]', function (e) {
         stockRequired = 1;
     }
 
-    if (stockRequired >= actuallyStock) { //Validamos que halla stock suficiente para poder venderlo
+    if (stockRequired > actuallyStock) { //Validamos que halla stock suficiente para poder venderlo
         e.currentTarget.value = actuallyStock;
         stockRequired = actuallyStock;
 
@@ -332,12 +351,12 @@ $('#tableSearchProducts tbody').on('click', 'tr', function (e) {
     }
 });
 
-$('body').delegate('#btnClearSell', 'click', (e) => {
+$('#btnClearSell').on('click', (e) => {
     $('#tableSellProducts').DataTable().clear().draw();
     $('#wholePurchase').val('');
 });
 
-$('body').delegate('#btnAddProductToSale', 'click', (e) => {
+$('#btnAddProductToSale').on('click', (e) => {
     let tableSearchProducts = $('#tableSearchProducts').DataTable();
 
     if (tableSearchProducts.rows('.row_selected')[0].length > 0) {
@@ -360,7 +379,7 @@ $('body').delegate('#btnAddProductToSale', 'click', (e) => {
     }
 });
 
-$('body').delegate('#btnCancelSale', 'click', (e) => {
+$('#btnCancelSale').on('click', (e) => {
     Swal.fire({
         title: '¿Seguro de cancelar la venta?',
         text: "Si cancelas la venta no se podran revertir los cambios.",
@@ -378,7 +397,7 @@ $('body').delegate('#btnCancelSale', 'click', (e) => {
     });
 });
 
-$('body').delegate('#btnStartCashRegister', 'click', (e) => {
+$('#btnStartCashRegister').on('click', (e) => {
     let initialAmount = $('#initialAmount').val();
 
     if (initialAmount != '' && initialAmount > 0) {
@@ -409,17 +428,28 @@ $('body').delegate('#btnStartCashRegister', 'click', (e) => {
     }
 });
 
-$('body').delegate('#initialAmount', 'keypress', (e) => {
-    if (e.key === "Enter")
-        $('#btnStartCashRegister').click();
+$('#initialAmount').on('keypress', (e) => {
+    if (e.which === 13)
+        $('#btnStartCashRegister').trigger('click');
 });
 
 //$('body').delegate('#txtBarCode', 'keypress', (e) => {
-//    if (e.key === "Enter")
-//        $('#btnAddProduct').click();
+//    if (e.which === 13 && e.currentTarget.value != '')
+//        $('#btnAddProduct').trigger('click');
 //});
 
-$('body').delegate('#txtBarCode', 'change', (e) => { $('#btnAddProduct').click(); });
+$('#txtNameDescriptionProduct').on('keypress', (e) => {
+    if (e.which === 13 && e.currentTarget.value != '')
+        $('#btnSearchProductByNameDescription').trigger('click');
+});
+
+//$('#txtBarCode').on('change', (e) => { $('#btnAddProduct').trigger('click'); });
+
+$('#txtBarCode').on('keyup', (e) => {
+    if (e.which === 13) {
+        $('#btnAddProduct').trigger('click');
+    }
+});
 
 const buildTableSellProducts = (product) => {
     let tableSellProducts = $('#tableSellProducts').DataTable();
@@ -495,7 +525,12 @@ const buildTableProducts = (products) => {
         let stock = item.stock;
 
         if (productsInCart.length > 0) {
-            const res = productsInCart.findIndex(i => i.productId == item.id);
+            let res;
+
+            if (item.productId == undefined)
+                res = productsInCart.findIndex(i => i.productId == item.id);
+            else
+                res = productsInCart.findIndex(i => i.productId == item.productId);
 
             if (res != -1) {
                 let quantity = $($('#tableSellProducts').DataTable().cell(res, 14).node()).find('input')[0].value;
@@ -504,16 +539,31 @@ const buildTableProducts = (products) => {
         }
 
         if (stock > 0) {
-            data.push({
-                'barCode': item.barCode,
-                'productId': item.productId,
-                'name': `${item.nameProduct} ${item.description}`,
-                'expirationDate': item.expirationDate != null ? new Date(item.expirationDate).toLocaleDateString() : '',
-                'stock': stock,
-                'salesPrice1': item.salesPrice1,
-                'salesPrice2': item.salesPrice2 > 0 ? item.salesPrice2 : '',
-                'wholesale': item.wholesale2 > 0 ? `${item.wholesale2} ${item.icon}` : ''
-            });
+            if (item.productId == undefined) {
+                data.push({
+                    'barCode': item.barCode,
+                    'productId': item.id,
+                    'name': `${item.name} ${item.description}`,
+                    'expirationDate': item.expirationDate != null ? new Date(item.expirationDate).toLocaleDateString() : '',
+                    'stock': stock,
+                    'salesPrice1': item.priceProducts[0].salesPrice,
+                    'salesPrice2': item.priceProducts.length > 1 ? item.priceProducts[1].salesPrice : '',
+                    'wholesale': item.priceProducts.length > 1 ? `${item.priceProducts[1].wholesale} ${item.measurementUnit.icon}` : ''
+                });
+            }
+            else {
+                data.push({
+                    'barCode': item.barCode,
+                    'productId': item.productId,
+                    'name': `${item.nameProduct} ${item.description}`,
+                    'expirationDate': item.expirationDate != null ? new Date(item.expirationDate).toLocaleDateString() : '',
+                    'stock': stock,
+                    'salesPrice1': item.salesPrice1,
+                    'salesPrice2': item.salesPrice2 > 0 ? item.salesPrice2 : '',
+                    'wholesale': item.wholesale2 > 0 ? `${item.wholesale2} ${item.icon}` : ''
+                });
+            }
+
         }
     });
 
@@ -594,14 +644,16 @@ const payProducts = async (cash, moneyChange) => {
         SellItems(sellerItemsTypes).then((saleId) => {
 
             if (saleId > 0) {
+                const ticketInfo = JSON.parse(localStorage.getItem("ticketInfo"));
+
                 let total = $('#wholePurchase').val();
 
                 let template = `
                                     <div style="width: 300px; padding: 5px;">
                                         <div style="text-align: center;">
-                                            <img src="https://farmaymas.mx/wp-content/uploads/2022/06/farma-vecto-scaled.webp" width="70" height="30"><br>
-                                            <label style="font-size: x-large; font-weight: 600;">Farma y mas</label></br>
-                                            <label style="margin-top: 5px;">Av del Trabajo</label><br>
+                                            <img src="~/images/Logo.png" width="70" height="30"><br>
+                                            <label style="font-size: x-large; font-weight: 600;">${ticketInfo.companyName}</label></br>
+                                            <label style="margin-top: 5px;">${ticketInfo.address}</label><br>
                                             <label style="margin-top: 5px;">${getDateDDMMYYYYHHMM()}</label><br>
                                             <label>**************************************</label>
                                         </div>
@@ -620,8 +672,7 @@ const payProducts = async (cash, moneyChange) => {
                                         </div>
                                         <div style="text-align: center;">
                                             <p>**************************************</p>
-                                            <p>Agradecemos su preferencia</p>
-                                            <p>¡Vuelva pronto!</p>
+                                            <p>${ticketInfo.footer}</p>
                                         </div>
                                     </div>
                                      `;
@@ -632,7 +683,7 @@ const payProducts = async (cash, moneyChange) => {
                 newwin.close();
 
                 $('#modalPayProducts').modal('hide');
-                $('#btnClearSell').click();
+                $('#btnClearSell').trigger('click');
                 $('#loadingPage').fadeOut(1);
 
                 dinamycTimerAlert({

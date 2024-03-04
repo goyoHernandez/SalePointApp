@@ -30,7 +30,7 @@ namespace SalePoint.App.Controllers
                 int userId = int.Parse(claimsIdentity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).First()!);
                 filterSaleProducts.UserId = userId;
 
-                return Ok(await _saleRepository.GetSalesByUserId(filterSaleProducts));
+                return Ok(await _saleRepository.GetSalesByUserId(filterSaleProducts, HttpContext.Session.GetString("TokenAuth")!));
             }
             return Ok(null);
 
@@ -44,7 +44,7 @@ namespace SalePoint.App.Controllers
                 int userId = int.Parse(claimsIdentity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).First()!);
                 productReturns.UserId = userId;
 
-                return Ok(await _saleRepository.ReturnProduct(productReturns));
+                return Ok(await _saleRepository.ReturnProduct(productReturns, HttpContext.Session.GetString("TokenAuth")!));
             }
             return Ok(null);
         }

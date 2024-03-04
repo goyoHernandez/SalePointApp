@@ -3,38 +3,67 @@
         <h3>Inventario</h3>
     </div>
     <div class="card-body">
-        <div class=" row mb-2">
-            <div class="col col-lg-12 d-flex justify-content-end">
-                <button type="button" class="btn btn-primary" id="btnCreateProduct">
-                    <i class="fa-solid fa-plus"></i> Nuevo producto
-                </button>
+        <div class="container">
+            <div class="row mt-1 d-flex justify-content-end">
+                <div class="col-lg-6">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Buqueda por nombre o descripción" id="textSearchProduct">
+                        <button class="btn btn-outline-primary" type="button" id="searchProduct">Buscar</button>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-primary" id="btnCreateProduct">
+                        <i class="fa-solid fa-plus"></i> Nuevo producto
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="row mt-3">
-            <table id="tableProducts" class="display striped row-border order-column nowrap" width="100%">
-                <thead>
-                    <tr>
-                        <th>Codigo</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Caducidad</th>
-                        <th>Unidad de medida</th>
-                        <th>Existencias</th>
-                        <th>Existencia minima</th>
-                        <th>Precio de compra</th>
-                        <th>Precio de venta menudeo</th>
-                        <th>Porcentaje de utilidad</th>
-                        <th>Ganancia</th>
-                        <th>Precio de venta mayoreo</th>
-                        <th>Porcentaje de utilidad</th>
-                        <th>Ganancia</th>
-                        <th>Apartir de</th>
-                        <th>Departamento</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+        <div class="row mt-1">
+            <div class="table-responsive">
+                <table class="table table-striped text-nowrap">
+                    <thead class="table-dark">
+                        <tr>
+                            <th colspan="2">Codigo</th>
+                            <th colspan="4">Nombre</th>
+                            <th colspan="5">Desc.</th>
+                            <th>Caducidad</th>
+                            <th>Unidad de Medida</th>
+                            <th>Existencias</th>
+                            <th>Existencia minima</th>
+                            <th>Precio de compra</th>
+                            <th>Precio de venta menudeo</th>
+                            <th>% de utilidad</th>
+                            <th>Ganancia</th>
+                            <th>Precio de venta mayoreo</th>
+                            <th>% de utilidad</th>
+                            <th>Ganancia</th>
+                            <th>A partir de</th>
+                            <th>Departamento</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblProducts"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-flex justify-content-center align-content-center">
+                <div class="col-auto">
+                    <button class="btn btn-outline-primary mx-2" id="previousPage" disabled="">Atras</button>
+                </div>
+                <div class="col col-lg-1">
+                    <input type="number" id="pageNumber" class="form-control" min="1">
+                </div>
+                <div class="col-auto">
+                    <button class="btn">/</button>
+                </div>
+                <div class="col-auto">
+                    <button class="btn" id="totalPage"></button>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-outline-primary mx-2" id="nextPage">Siguiente</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -59,14 +88,14 @@
                     <div class="col col-lg-4 mb-2">
                         <label class="form-label">Código de barras</label>
                         <input type="text" class="form-control" id="barCode" />
-                    </div>                    
+                    </div>
                 </div>
 
                 <div class="row d-flex">
                     <div class="col col-lg-4 mb-2">
                         <label class="form-label">Caducidad</label>
                         <input type="date" class="form-control" id="expirationDate" />
-                    </div>                    
+                    </div>
                     <div class="col col-lg-4">
                         <label class="form-label">Departamento</label>
                         <select class="form-select" id="department"></select>

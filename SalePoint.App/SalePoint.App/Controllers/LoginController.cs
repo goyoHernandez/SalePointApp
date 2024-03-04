@@ -1,19 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SalePoint.Primitives.Interfaces;
 using SalePoint.Primitives;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
 
 namespace SalePoint.App.Controllers
 {
     public class LoginController : Controller
     {
         private readonly IUserRepository _userRepository;
+        private readonly IWebHostEnvironment Environment;
 
-        public LoginController(IUserRepository userRepository)
+        public LoginController(IUserRepository userRepository, IWebHostEnvironment environment)
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            Environment = environment;
         }
 
         public IActionResult Index()
@@ -24,29 +23,36 @@ namespace SalePoint.App.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Index([FromBody] Models.Access access)
         {
-            StoreUser? storeUser = await _userRepository.Login(access);
-
-            if (storeUser != null && storeUser.UserName != null)
+            try
             {
-                List<Claim> claims = new()
+                TokenAuth? tokenAuth = await _userRepository.Login(access);
+
+                if (tokenAuth != null && !string.IsNullOrEmpty(tokenAuth.Token)) //&& tokenAuth.UserName != null)
                 {
-                 new Claim(ClaimTypes.Sid, storeUser.Id.ToString()),
-                 new Claim(ClaimTypes.Name, storeUser.Name),
-                 new Claim(ClaimTypes.Role, storeUser.Rol.Name)
-                };
+                    HttpContext.Session.SetString("TokenAuth", tokenAuth.Token);
 
-                ClaimsIdentity claimsIdentity = new(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                    string path = Path.Combine(Environment.WebRootPath, "images\\logo");
 
-                return Json(true);
+                    string? pathImage = Directory.GetFiles(path).FirstOrDefault();
+
+                    if (pathImage != null)
+                        return Json($"/images/logo/{Path.GetFileName(pathImage)}");
+                    else
+                        return Json("");
+                }
+                return Json(false);
             }
-            return Json(false);
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<IActionResult> LogOut()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Login");
+            //await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Clear();
+            return Redirect("~/Login/Index");
         }
     }
 }

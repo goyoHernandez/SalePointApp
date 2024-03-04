@@ -1,18 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SalePoint.App.Models;
-using System.Diagnostics;
-using System.Security.Claims;
 
 namespace SalePoint.App.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private IWebHostEnvironment Environment;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IWebHostEnvironment environment)
         {
             _logger = logger;
+            Environment = environment;
         }
 
         [Authorize]
@@ -21,15 +20,24 @@ namespace SalePoint.App.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult UploadLogo(IFormFile logo)
         {
-            return View();
-        }
+            string path = Path.Combine(Environment.WebRootPath, "images\\logo");
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            if (Directory.Exists(path))
+                Directory.Delete(path, true);
+
+            Directory.CreateDirectory(path);
+
+            string fileName = Path.GetFileName($"Logo{Path.GetExtension(logo.FileName)}");
+
+            using (FileStream stream = new(Path.Combine(path, fileName), FileMode.Create))
+            {
+                logo.CopyTo(stream);
+            }
+
+            return Json($"/images/logo/Logo{Path.GetExtension(logo.FileName)}");
         }
     }
 }

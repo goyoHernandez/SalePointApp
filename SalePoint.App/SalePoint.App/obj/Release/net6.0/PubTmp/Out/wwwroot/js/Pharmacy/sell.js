@@ -133,6 +133,8 @@
 });
 
 $('body').delegate('#btnSearchProduct', 'click', (e) => {
+    $('#txtNameDescriptionProduct').val('');
+    $('#tableSearchProducts').DataTable().clear().draw();
     $('#modalProducts').modal('show');
 
     //$('#loadingPage').fadeIn(1);
@@ -152,7 +154,7 @@ $('body').delegate('#btnSearchProduct', 'click', (e) => {
 $('body').delegate('#btnSearchProductByNameDescription', 'click', (e) => {
     let keyWord = document.getElementById('txtNameDescriptionProduct').value;
 
-    if (keyWord != '' && keyWord.length >= 3 ) {
+    if (keyWord != '' && keyWord.length >= 3) {
 
         $('#loadingPage').fadeIn(1);
 
@@ -242,8 +244,12 @@ $('body').delegate('#txtCash', 'keyup', (e) => {
 
     $('#txtMoneyChange').val(cash - amountPayable);
 
-    if (cash >= amountPayable)
+    if (cash >= amountPayable) {
         $('#btnPayProductos').attr('disabled', false);
+
+        if (e.key === "Enter")
+            $('#btnPayProductos').click();
+    }
     else
         $('#btnPayProductos').attr('disabled', true);
 });
@@ -305,7 +311,7 @@ $('#tableSellProducts tbody').on('change', '[id*=inputStock]', function (e) {
         stockRequired = 1;
     }
 
-    if (stockRequired >= actuallyStock) { //Validamos que halla stock suficiente para poder venderlo
+    if (stockRequired > actuallyStock) { //Validamos que halla stock suficiente para poder venderlo
         e.currentTarget.value = actuallyStock;
         stockRequired = actuallyStock;
 
@@ -415,9 +421,14 @@ $('body').delegate('#initialAmount', 'keypress', (e) => {
 });
 
 //$('body').delegate('#txtBarCode', 'keypress', (e) => {
-//    if (e.key === "Enter")
+//    if (e.key === "Enter" && e.currentTarget.value != '')
 //        $('#btnAddProduct').click();
 //});
+
+$('body').delegate('#txtNameDescriptionProduct', 'keypress', (e) => {
+    if (e.key === "Enter" && e.currentTarget.value != '')
+        $('#btnSearchProductByNameDescription').click();
+});
 
 $('body').delegate('#txtBarCode', 'change', (e) => { $('#btnAddProduct').click(); });
 
@@ -495,7 +506,12 @@ const buildTableProducts = (products) => {
         let stock = item.stock;
 
         if (productsInCart.length > 0) {
-            const res = productsInCart.findIndex(i => i.productId == item.id);
+            let res;
+
+            if (item.productId == undefined)
+                res = productsInCart.findIndex(i => i.productId == item.id);
+            else
+                res = productsInCart.findIndex(i => i.productId == item.productId);
 
             if (res != -1) {
                 let quantity = $($('#tableSellProducts').DataTable().cell(res, 14).node()).find('input')[0].value;
@@ -504,16 +520,31 @@ const buildTableProducts = (products) => {
         }
 
         if (stock > 0) {
-            data.push({
-                'barCode': item.barCode,
-                'productId': item.productId,
-                'name': `${item.nameProduct} ${item.description}`,
-                'expirationDate': item.expirationDate != null ? new Date(item.expirationDate).toLocaleDateString() : '',
-                'stock': stock,
-                'salesPrice1': item.salesPrice1,
-                'salesPrice2': item.salesPrice2 > 0 ? item.salesPrice2 : '',
-                'wholesale': item.wholesale2 > 0 ? `${item.wholesale2} ${item.icon}` : ''
-            });
+            if (item.productId == undefined) {
+                data.push({
+                    'barCode': item.barCode,
+                    'productId': item.id,
+                    'name': `${item.name} ${item.description}`,
+                    'expirationDate': item.expirationDate != null ? new Date(item.expirationDate).toLocaleDateString() : '',
+                    'stock': stock,
+                    'salesPrice1': item.priceProducts[0].salesPrice,
+                    'salesPrice2': item.priceProducts.length > 1 ? item.priceProducts[1].salesPrice : '',
+                    'wholesale': item.priceProducts.length > 1 ? `${item.priceProducts[1].wholesale} ${item.measurementUnit.icon}` : ''
+                });
+            }
+            else {
+                data.push({
+                    'barCode': item.barCode,
+                    'productId': item.productId,
+                    'name': `${item.nameProduct} ${item.description}`,
+                    'expirationDate': item.expirationDate != null ? new Date(item.expirationDate).toLocaleDateString() : '',
+                    'stock': stock,
+                    'salesPrice1': item.salesPrice1,
+                    'salesPrice2': item.salesPrice2 > 0 ? item.salesPrice2 : '',
+                    'wholesale': item.wholesale2 > 0 ? `${item.wholesale2} ${item.icon}` : ''
+                });
+            }
+
         }
     });
 
@@ -599,8 +630,8 @@ const payProducts = async (cash, moneyChange) => {
                 let template = `
                                     <div style="width: 300px; padding: 5px;">
                                         <div style="text-align: center;">
-                                            <img src="https://farmaymas.mx/wp-content/uploads/2022/06/farma-vecto-scaled.webp" width="70" height="30"><br>
-                                            <label style="font-size: x-large; font-weight: 600;">Farma y mas</label></br>
+                                            <img src="~/images/Logo.png" width="70" height="30"><br>
+                                            <label style="font-size: x-large; font-weight: 600;">Abarrtotes Mike</label></br>
                                             <label style="margin-top: 5px;">Av del Trabajo</label><br>
                                             <label style="margin-top: 5px;">${getDateDDMMYYYYHHMM()}</label><br>
                                             <label>**************************************</label>

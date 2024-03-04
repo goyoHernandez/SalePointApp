@@ -1,4 +1,4 @@
-﻿$(document).ready(() => {
+﻿$(() => {
     $('#tableExpiringSoonProducts').DataTable({
         scrollX: true,
         language: language,
@@ -44,9 +44,20 @@
             { data: 'stock' },
         ]
     });
+
+    if (localStorage.getItem("ticketInfo") == null)
+        buildTicket();
+
     buildTableGetProductsNearCompletition();
-    buildTableExpiringSoonProducts();    
+    buildTableExpiringSoonProducts();
 });
+
+const buildTicket = () => {
+    GetInfoTicket().then((res) => {
+        if (res != null && res.id > 0)
+            localStorage.setItem("ticketInfo", JSON.stringify(res));
+    });
+}
 
 const buildTableExpiringSoonProducts = () => {
     let tableExpiringSoonProducts = $('#tableExpiringSoonProducts').DataTable();
@@ -66,7 +77,7 @@ const buildTableExpiringSoonProducts = () => {
             tableExpiringSoonProducts.clear().draw();
             tableExpiringSoonProducts.rows.add(data); // Add new data
             tableExpiringSoonProducts.columns.adjust().draw(); // Redraw the DataTable
-        }        
+        }
     });
 }
 
@@ -93,6 +104,22 @@ const buildTableGetProductsNearCompletition = () => {
 }
 
 /* * *  Call API  * */
+
+const GetInfoTicket = async () => {
+    let data = '';
+    const url = new URL(`${window.location.origin}/Ticket/GetTicket`);
+
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    data = await response.json();
+
+    return data;
+}
 
 const GetProductsExpiringSoon = async () => {
     let data = new Array();

@@ -29,22 +29,26 @@
 </head>
 <body>
     <div class="layout has-sidebar fixed-sidebar fixed-header">
-        <aside id="sidebar" class="sidebar break-point-sm has-bg-image">
+        <aside id="sidebar" class="sidebar break-point-sm has-bg-image collapsed">
             <a id="btn-collapse" class="sidebar-collapser">
                 <i class="fa-solid fa-bars"></i>
             </a>
             <div class="sidebar-layout">
-                <div class="sidebar-header">
+                <div class="sidebar-header" style="margin-top: 35px;">
                     <div class="pro-sidebar-logo">
                         <a asp-controller="Home" asp-action="Index">
-                            <img id="companyLogo" src="https://farmaymas.mx/wp-content/uploads/2022/06/farma-vecto-scaled.webp" width="200" height="80">
+                            <img id="companyLogo" src="" class="img-fluid" style="width:100px;">
                         </a>
                     </div>
                 </div>
                 <div class="sidebar-content">
                     <nav class="menu open-current-submenu">
                         <ul>
-                            <li class="menu-header" style="padding-top: 20px"><span><strong>General</strong></span></li>
+                            <li class="menu-header visually-hidden">
+                                <span>
+                                    <strong>General</strong>
+                                </span>
+                            </li>
                             <li class="menu-item">
                                 <a asp-controller="Sell" asp-action="Index">
                                     <span class="menu-icon">
@@ -72,17 +76,17 @@
                                     </a>
                                 </li>
                             }
-                            @*@if (User.IsInRole("Administrador"))
+                            @if (User.IsInRole("Administrador"))
                             {
-                            <li class="menu-item">
-                            <a asp-controller="Ticket" asp-action="Index">
-                            <span class="menu-icon">
-                            <i class="fa-solid fa-ticket"></i>
-                            </span>
-                            <span class="menu-title">Ticket</span>
-                            </a>
-                            </li>
-                            }*@
+                                <li class="menu-item">
+                                    <a asp-controller="Ticket" asp-action="Index">
+                                        <span class="menu-icon">
+                                            <i class="fa-solid fa-ticket"></i>
+                                        </span>
+                                        <span class="menu-title">Ticket</span>
+                                    </a>
+                                </li>
+                            }
 
                             <li class="menu-item">
                                 <a asp-controller="CashRegister" asp-action="Index">
@@ -93,16 +97,16 @@
                                 </a>
                             </li>
 
-                           @* @if (User.IsInRole("Administrador"))
+                            @* @if (User.IsInRole("Administrador"))
                             {
-                                <li class="menu-item">
-                                    <a asp-controller="Report" asp-action="Index">
-                                        <span class="menu-icon">
-                                            <i class="fa-solid fa-file-pen"></i>
-                                        </span>
-                                        <span class="menu-title">Reportes</span>
-                                    </a>
-                                </li>
+                            <li class="menu-item">
+                            <a asp-controller="Report" asp-action="Index">
+                            <span class="menu-icon">
+                            <i class="fa-solid fa-file-pen"></i>
+                            </span>
+                            <span class="menu-title">Reportes</span>
+                            </a>
+                            </li>
                             }*@
 
                             @if (User.IsInRole("Administrador"))
@@ -116,15 +120,15 @@
                                     </a>
                                 </li>
                             }
-@*
+
                             <li class="menu-item">
-                                <a>
+                                <a id="btnChangeLogo" class="cursor-pointer">
                                     <span class="menu-icon">
                                         <i class="fa-solid fa-gear"></i>
                                     </span>
-                                    <span class="menu-title">Configuración</span>
+                                    <span class="menu-title">Cambiar logo</span>
                                 </a>
-                            </li>*@
+                            </li>
 
                             <li class="menu-item">
                                 <a asp-controller="Login" asp-action="LogOut">
@@ -153,6 +157,8 @@
             <i class="fa-solid fa-spinner fa-spin-pulse fa-2xl"></i>
         </div>
     </div>
+
+    <input type="file" class="form-control-file visually-hidden" id="uploadLogo" name="logo">
 
     <!-- ✅ load jQuery ✅ -->
     <script src="~/lib/jquery/dist/jquery.js"></script>

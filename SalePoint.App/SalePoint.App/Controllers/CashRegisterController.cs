@@ -30,7 +30,7 @@ namespace SalePoint.App.Controllers
             if (User.Identity is ClaimsIdentity claimsIdentity)
             {
                 int userId = int.Parse(claimsIdentity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault()!);
-                return Ok(await _cashRegisterRepository.GetAllCashRegisterByUserId(userId));
+                return Ok(await _cashRegisterRepository.GetAllCashRegisterByUserId(userId, HttpContext.Session.GetString("TokenAuth")!));
             }
             return Json(null);
         }
@@ -39,14 +39,14 @@ namespace SalePoint.App.Controllers
         [HttpGet(Name = "boxCutId/{boxCutId}/cashFlowsType/{cashFlowsType}")]
         public async Task<IActionResult> GetCashFlowsDetail(int boxCutId, int cashFlowsType)
         {
-            return Ok(await _cashRegisterRepository.GetCashFlowsDetail(boxCutId, cashFlowsType));
+            return Ok(await _cashRegisterRepository.GetCashFlowsDetail(boxCutId, cashFlowsType, HttpContext.Session.GetString("TokenAuth")!));
         }
 
         [Authorize]
         [HttpGet(Name = "boxCutId/{boxCutId}")]
         public async Task<IActionResult> GetProductReturnsDetail(int boxCutId)
         {
-            return Ok(await _cashRegisterRepository.GetProductReturnsDetail(boxCutId));
+            return Ok(await _cashRegisterRepository.GetProductReturnsDetail(boxCutId, HttpContext.Session.GetString("TokenAuth")!));
         }
 
         [Authorize]
@@ -59,7 +59,7 @@ namespace SalePoint.App.Controllers
             {
                 int userId = int.Parse(claimsIdentity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault()!);
 
-                IEnumerable<CashRegister>? cashRegisters = await _cashRegisterRepository.GetAllCashRegisterByUserId(userId);
+                IEnumerable<CashRegister>? cashRegisters = await _cashRegisterRepository.GetAllCashRegisterByUserId(userId, HttpContext.Session.GetString("TokenAuth")!);
 
                 if (cashRegisters != null && cashRegisters.Any())
                 {
@@ -94,7 +94,7 @@ namespace SalePoint.App.Controllers
             {
                 int userId = int.Parse(claimsIdentity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault()!);
 
-                boxCutOpen = await _cashRegisterRepository.ValidateBoxCutOpen(userId, change);
+                boxCutOpen = await _cashRegisterRepository.ValidateBoxCutOpen(userId, change, HttpContext.Session.GetString("TokenAuth")!);
             }
             return Json(boxCutOpen);
         }
@@ -103,7 +103,7 @@ namespace SalePoint.App.Controllers
         [HttpPost]
         public async Task<ActionResult> ApplyCashFlows([FromBody] CashFlows cashFlows)
         {
-            return Json(await _cashRegisterRepository.ApplyCashFlows(cashFlows));
+            return Json(await _cashRegisterRepository.ApplyCashFlows(cashFlows, HttpContext.Session.GetString("TokenAuth")!));
         }
 
         [Authorize]
@@ -120,7 +120,7 @@ namespace SalePoint.App.Controllers
                     Mount = mount
                 };
 
-                return Json(await _cashRegisterRepository.OpenCashRegister(initialAmount));
+                return Json(await _cashRegisterRepository.OpenCashRegister(initialAmount, HttpContext.Session.GetString("TokenAuth")!));
             }
             return Json(0);
         }
@@ -134,7 +134,7 @@ namespace SalePoint.App.Controllers
                 int userId = int.Parse(claimsIdentity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault()!);
                 cashRegister.UserId = userId;
 
-                return Json(await _cashRegisterRepository.CloseCashRegister(cashRegister));
+                return Json(await _cashRegisterRepository.CloseCashRegister(cashRegister, HttpContext.Session.GetString("TokenAuth")!));
             }
             return Json(0);
         }

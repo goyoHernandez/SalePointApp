@@ -1,4 +1,4 @@
-﻿$(document).ready(() => {
+﻿$(() => {
     $('#tableProductsSold').DataTable({
         language: language,
         destroy: true,
@@ -71,7 +71,7 @@
     });
 });
 
-$('body').delegate('#btnFilterDate', 'click', (e) => {
+$('#btnFilterDate').on('click', (e) => {
     const filterSaleProducts = {
         userId: 0,
         saleDateStart: $('#dateSaleStart').val() != '' ? $('#dateSaleStart').val() : null,
@@ -102,7 +102,8 @@ $('body').delegate('#btnFilterDate', 'click', (e) => {
     }
 });
 
-$('body').delegate('.btnReturnProduct', 'click', (e) => {
+$(document).on('click', '.btnReturnProduct', (e) => {
+
     let btnReturnProduct = e.currentTarget;
     let dataProductReturnEncode = btnReturnProduct.getAttribute('data-product-return');
     let row = e.currentTarget.parentNode._DT_CellIndex.row;
@@ -114,9 +115,9 @@ $('body').delegate('.btnReturnProduct', 'click', (e) => {
 
     let quantityCmbx = document.getElementById('quantity');
     quantityCmbx.innerHTML = '';
-    
+
     for (let i = 0; i < quantity; i++) {
-        i = wholesale > 1 || unitMeasureId  != 3 ? quantity : i;
+        i = wholesale > 1 || unitMeasureId != 3 ? quantity : i;
 
         let option = document.createElement('option');
         option.value = wholesale > 1 || unitMeasureId != 3 ? quantity : i + 1;
@@ -135,11 +136,11 @@ $('body').delegate('.btnReturnProduct', 'click', (e) => {
     $('#modalReturnNote').modal('show');
 });
 
-$('body').delegate('#btnApplyReimbursement', 'click', (e) => {
+$('#btnApplyReimbursement').on('click', (e) => {
     let productReturnseEncode = $('#productReturns').attr('data-product-return-encode');
     let dataProductReturnDecode = JSON.parse(decodeURIComponent(productReturnseEncode));
     let quantityCmbx = document.getElementById('quantity');
-    
+
     let productReturns = {
         "id": 0,
         "saleId": dataProductReturnDecode.saleId,
@@ -218,19 +219,19 @@ $('body').delegate('#btnApplyReimbursement', 'click', (e) => {
     });
 });
 
-$('body').delegate('#dateSaleStart', 'change', (e) => {
+$('#dateSaleStart').on('change', (e) => {
     let dateSaleStart = e.currentTarget.value;
 
     $('#dateSaleEnd').attr('min', dateSaleStart);
 });
 
-$('body').delegate('#dateSaleEnd', 'change', (e) => {
+$('#dateSaleEnd').on('change', (e) => {
     let dateSaleEnd = e.currentTarget.value;
 
     $('#dateSaleStart').attr('max', dateSaleEnd);
 });
 
-$('body').delegate('#quantity', 'change', (e) => {
+$('#quantity').on('change', (e) => {
     let retailPrice = Math.round($('#refundAmount').attr('data-retail-price') * 100) / 100;
     $('#refundAmount').val(e.currentTarget.value * retailPrice);
 });
@@ -323,8 +324,8 @@ const printTicket = (productReturns, nameProduct) => {
     let template = `
                                 <div style="width: 300px; padding: 5px;">
                                     <div style="text-align: center;">
-                                        <img src="https://farmaymas.mx/wp-content/uploads/2022/06/farma-vecto-scaled.webp" width="70" height="30"><br>
-                                        <label style="font-size: x-large; font-weight: 600;">Farma y mas</label></br>
+                                        <img src="~/images/Logo.png" width="70" height="30"><br>
+                                        <label style="font-size: x-large; font-weight: 600;">Abarrtotes Mike</label></br>
                                         <label style="margin-top: 5px;">Av del Trabajo</label><br>
                                         <label style="margin-top: 5px;">${getDateDDMMYYYYHHMM()}</label><br>
                                         <label>*** Ticket por devolución ***</label>

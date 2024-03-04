@@ -2,6 +2,6 @@
 {
     public interface ICatalogRepository
     {
-        Task<IEnumerable<MeasurementUnit>?> GetMeasurementUnit();
+        Task<IEnumerable<MeasurementUnit>?> GetMeasurementUnit(string token);
     }
 }

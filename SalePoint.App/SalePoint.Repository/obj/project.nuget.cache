@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PfTiT1ipRXgUfyvrjXNfwT/KGM0e62nEed1Psp39ITYuxzAD6C0oqisSKyMgHfN29J+cdiP9pdZk7HSrky6qXg==",
+  "dgSpecHash": "FkE25Vm2DZZHoGL+Rw7o7/nZC8b38d+hwddEN5l93oqw1NrHbds2Ls96i6fS4YqAUpYv/9+Pe8ggzDRvVlyvDA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\USER\\Downloads\\Punto de venta v2.0\\App\\Front\\SalePointFrontend\\SalePoint.App\\SalePoint.Repository\\SalePoint.Repository.csproj",
+  "projectFilePath": "C:\\Projects\\SalePointApp\\SalePoint.App\\SalePoint.Repository\\SalePoint.Repository.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",

@@ -323,8 +323,8 @@ const printTicket = (productReturns, nameProduct) => {
     let template = `
                                 <div style="width: 300px; padding: 5px;">
                                     <div style="text-align: center;">
-                                        <img src="https://farmaymas.mx/wp-content/uploads/2022/06/farma-vecto-scaled.webp" width="70" height="30"><br>
-                                        <label style="font-size: x-large; font-weight: 600;">Farma y mas</label></br>
+                                        <img src="~/images/Logo.png" width="70" height="30"><br>
+                                        <label style="font-size: x-large; font-weight: 600;">Abarrtotes Mike</label></br>
                                         <label style="margin-top: 5px;">Av del Trabajo</label><br>
                                         <label style="margin-top: 5px;">${getDateDDMMYYYYHHMM()}</label><br>
                                         <label>*** Ticket por devolución ***</label>
